@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /*?v=
+
+Sitemap: https://pizza1nt.ru/sitemap.xml
+Host: https://pizza1nt.ru

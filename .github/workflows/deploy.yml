@@ -1,0 +1,99 @@
+name: Deploy main to Beget
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: production-pizza1nt-ru
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      DEPLOY_HOST: ${{ secrets.BEGET_HOST }}
+      DEPLOY_USER: ${{ secrets.BEGET_USER }}
+      DEPLOY_KEY: ${{ secrets.BEGET_SSH_KEY }}
+      DEPLOY_KNOWN_HOSTS: ${{ secrets.BEGET_KNOWN_HOSTS }}
+      DEPLOY_PATH: pizza1nt.ru/public_html/
+
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Validate deployable source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s index.html
+          test -s styles.css
+          test -s app.js
+          test -s lib.php
+          test ! -e config.local.php
+          ! find orders -type f ! -name .gitkeep -print -quit | grep -q .
+          find . -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+
+      - name: Configure SSH
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -d -m 700 "$HOME/.ssh"
+          printf '%s\n' "$DEPLOY_KEY" > "$HOME/.ssh/id_ed25519"
+          chmod 600 "$HOME/.ssh/id_ed25519"
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/known_hosts"
+
+      - name: Back up current production
+        shell: bash
+        run: |
+          set -euo pipefail
+          ssh "$DEPLOY_USER@$DEPLOY_HOST" '
+            set -eu
+            production="$HOME/pizza1nt.ru/public_html"
+            backup_dir="$HOME/deploy-backups/pizza1nt.ru"
+            test -d "$production"
+            mkdir -p "$backup_dir"
+            stamp=$(date -u +%Y%m%dT%H%M%SZ)
+            tar -czf "$backup_dir/predeploy-$stamp.tar.gz" \
+              -C "$HOME/pizza1nt.ru" public_html
+          '
+
+      - name: Deploy atomically with rsync
+        shell: bash
+        run: |
+          set -euo pipefail
+          rsync -azc --delete-after --delay-updates --itemize-changes \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='.well-known/' \
+            --exclude='cgi-bin/' \
+            --exclude='config.local.php' \
+            --exclude='config.example.php' \
+            --exclude='orders/' \
+            --exclude='.env' \
+            --exclude='.env.*' \
+            --exclude='*.log' \
+            --exclude='*.sql' \
+            --exclude='*.sqlite*' \
+            --exclude='backups/' \
+            --exclude='README.md' \
+            ./ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH"
+
+      - name: Verify production
+        shell: bash
+        run: |
+          set -euo pipefail
+          local_hash=$(sha256sum index.html | cut -d' ' -f1)
+          remote_hash=$(ssh "$DEPLOY_USER@$DEPLOY_HOST" \
+            "sha256sum '$DEPLOY_PATH/index.html' | cut -d' ' -f1")
+          test "$local_hash" = "$remote_hash"
+          ssh "$DEPLOY_USER@$DEPLOY_HOST" \
+            "test -s '$DEPLOY_PATH/config.local.php' && test -d '$DEPLOY_PATH/orders'"
+          curl --fail --silent --show-error --retry 5 \
+            https://pizza1nt.ru/ | grep -Fq 'deploy-source: github/main'

@@ -1,0 +1,17 @@
+# Production-only configuration and customer/order data
+config.local.php
+.env
+.env.*
+orders/*
+!orders/.gitkeep
+
+# Runtime and backup files
+*.log
+*.sql
+*.sqlite*
+backups/
+
+# Local/editor files
+.DS_Store
+.idea/
+.vscode/
