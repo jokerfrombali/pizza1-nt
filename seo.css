@@ -1,0 +1,71 @@
+/* Дополнение к styles.css: только для SEO-страниц. Работает на переменных боевого сайта. */
+.seo{max-width:1180px;margin:0 auto;padding:0 var(--gut,24px) 40px}
+.seo__crumbs{font-size:13px;color:var(--muted);padding:18px 0 2px}
+.seo__crumbs a{color:var(--muted);text-decoration:none}
+.seo__crumbs a:hover{color:var(--text)}
+.seo h1{font-family:var(--display);font-size:clamp(26px,4.4vw,44px);line-height:1.08;text-transform:uppercase;margin:10px 0 8px}
+.seo h2{font-family:var(--display);font-size:clamp(20px,3vw,28px);text-transform:uppercase;letter-spacing:.03em;margin:34px 0 10px}
+.seo h3{font-family:var(--display);font-size:18px;text-transform:uppercase;letter-spacing:.03em;margin:22px 0 6px}
+.seo p{margin:12px 0;max-width:74ch}
+.seo .lead{font-size:18px;color:#DAD7D1;max-width:74ch}
+.seo ul,.seo ol{max-width:74ch;padding-left:20px}
+.seo li{margin:6px 0}
+.seo a{color:var(--amber-lt)}
+.seo .muted{color:var(--muted)}
+.seo__facts{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0;padding:0;list-style:none}
+.seo__facts li{background:var(--bg-2);border:1px solid var(--line);border-radius:999px;padding:7px 15px;font-size:14px;margin:0}
+.seo__grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));margin:16px 0}
+.seo__card{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r,18px);padding:16px}
+.seo__card h3{margin:0 0 6px;font-size:16px}
+.seo__card .price{font-family:var(--display);font-size:19px;color:var(--amber-lt)}
+.seo__card .desc{font-size:14px;color:var(--muted);margin:6px 0 0}
+.seo__tag{display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#0E0E10;background:var(--basil);border-radius:4px;padding:2px 7px;margin-left:6px;vertical-align:middle}
+.seo__tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+.seo__tbl th,.seo__tbl td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+.seo__tbl th{font-family:var(--display);text-transform:uppercase;font-size:12.5px;letter-spacing:.05em;color:var(--muted)}
+.seo__tbl td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.seo__tbl tr.on td{background:rgba(226,30,34,.10)}
+.seo__scroll{overflow-x:auto}
+.seo__box{background:var(--bg-2);border:1px solid rgba(226,30,34,.45);border-radius:var(--r,18px);padding:18px 20px;margin:24px 0}
+.seo__faq dt{font-weight:600;margin-top:14px}
+.seo__faq dd{margin:4px 0 0;color:#CFCCC6;max-width:74ch}
+.seo__links{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;padding:0;list-style:none}
+.seo__links li{margin:0}
+.seo__links a{display:inline-block;background:var(--bg-3);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:14px;color:var(--text);text-decoration:none}
+.seo__links a:hover{background:var(--bg-4)}
+.seo__cta{display:inline-block;margin:16px 0}
+/* карта сайта в подвале */
+.seomap{border-top:1px solid var(--line);margin-top:40px;padding:30px var(--gut,24px) 10px;background:var(--bg-2)}
+.seomap__in{max-width:1180px;margin:0 auto}
+.seomap__h{font-family:var(--display);text-transform:uppercase;letter-spacing:.05em;font-size:15px;color:var(--muted);margin:0 0 18px}
+.seomap__cols{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
+.seomap__g b{display:block;font-family:var(--display);text-transform:uppercase;letter-spacing:.05em;font-size:13px;margin:0 0 8px}
+.seomap__g ul{list-style:none;margin:0;padding:0;columns:1}
+.seomap__g li{margin:4px 0}
+.seomap__g a{color:#B9B6B0;text-decoration:none;font-size:13.5px;line-height:1.45}
+.seomap__g a:hover{color:var(--text);text-decoration:underline}
+
+/* псевдонимы для классов, которыми размечен контент */
+.seo .lead{font-size:18px;color:#DAD7D1}
+.seo .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));margin:16px 0}
+.seo .card{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r,18px);padding:16px}
+.seo .card h3{margin:0 0 6px;font-size:16px}
+.seo .card .p{font-family:var(--display);font-size:19px;color:var(--amber-lt)}
+.seo .card .d{font-size:14px;color:var(--muted);margin-top:6px}
+.seo .tag{display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#0E0E10;background:var(--basil);border-radius:4px;padding:2px 7px;margin-left:6px;vertical-align:middle}
+.seo .facts{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0;padding:0;list-style:none}
+.seo .facts li{background:var(--bg-2);border:1px solid var(--line);border-radius:999px;padding:7px 15px;font-size:14px;margin:0}
+.seo table{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px;display:block;overflow-x:auto}
+.seo th,.seo td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+.seo th{font-family:var(--display);text-transform:uppercase;font-size:12.5px;letter-spacing:.05em;color:var(--muted)}
+.seo td.num,.seo th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.seo .box{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r,18px);padding:18px 20px;margin:24px 0}
+.seo .box.accent{border-color:rgba(226,30,34,.45)}
+.seo .faq dt{font-weight:600;margin-top:14px}
+.seo .faq dd{margin:4px 0 0;color:#CFCCC6;max-width:74ch}
+.seo .links{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;padding:0;list-style:none}
+.seo .links li{margin:0}
+.seo .links a{display:inline-block;background:var(--bg-3);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:14px;color:var(--text);text-decoration:none}
+.seo .links a:hover{background:var(--bg-4)}
+.seo ul.dots{padding-left:20px}
+@media(max-width:640px){.seo h1{font-size:27px}.seomap{padding-top:24px}.seo .grid{grid-template-columns:1fr}}

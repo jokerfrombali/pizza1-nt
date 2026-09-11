@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /*?v=
+Disallow: /orders/
+Disallow: /new/
 
 Sitemap: https://pizza1nt.ru/sitemap.xml
 Host: https://pizza1nt.ru
