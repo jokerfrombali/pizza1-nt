@@ -96,4 +96,5 @@ jobs:
           ssh "$DEPLOY_USER@$DEPLOY_HOST" \
             "test -s '$DEPLOY_PATH/config.local.php' && test -d '$DEPLOY_PATH/orders'"
           curl --fail --silent --show-error --retry 5 \
-            https://pizza1nt.ru/ | grep -Fq 'deploy-source: github/main'
+            https://pizza1nt.ru/ -o "$RUNNER_TEMP/prod-index.html"
+          grep -Fq 'deploy-source: github/main' "$RUNNER_TEMP/prod-index.html"
