@@ -155,3 +155,9 @@ body.has-warn.has-alarm .kboard{height:calc(100% - 58px - 33px - 50px)}
   .kboard{overflow-x:auto}
   .kcol{flex:0 0 280px}
 }
+
+/* ошибка на форме входа */
+.kerr{
+  background:#4a1a1c;border:1px solid #7a2a2e;color:#ffb4b4;
+  padding:10px 12px;border-radius:10px;font-size:15px;margin:0 0 14px;text-align:left
+}
