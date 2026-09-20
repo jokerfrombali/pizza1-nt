@@ -32,7 +32,7 @@ if (empty($_SESSION['kit'])) { ?><!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <title>Кухня — Пицца №1</title>
-<link rel="stylesheet" href="kitchen.css?v=1">
+<link rel="stylesheet" href="kitchen.css?v=2">
 </head><body class="klogin">
 <form method="post" class="kloginbox">
 <img src="logo.png" alt="" height="56">
@@ -52,7 +52,7 @@ $WHO = isset($_SESSION['who']) ? $_SESSION['who'] : '';
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#14110f">
 <title>Кухня — Пицца №1</title>
-<link rel="stylesheet" href="kitchen.css?v=1">
+<link rel="stylesheet" href="kitchen.css?v=2">
 </head><body data-warn1="20" data-warn2="35"<?php if (!$OWN_PASS) { echo ' data-nopass="1"'; } ?>>
 
 <header class="ktop">
@@ -89,5 +89,5 @@ $WHO = isset($_SESSION['who']) ? $_SESSION['who'] : '';
 
 <iframe id="printer" title="печать" style="position:fixed;width:0;height:0;border:0;left:-9999px"></iframe>
 
-<script src="kitchen.js?v=1"></script>
+<script src="kitchen.js?v=2"></script>
 </body></html>
