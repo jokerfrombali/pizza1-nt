@@ -13,7 +13,7 @@ header('X-Robots-Tag: noindex');
 
 /* Временный пароль смены. Как только в config.local.php появится
    $KITCHEN_PASS — он перекроет эту строку, и её можно удалить. */
-$TEMP_PASS = 'Pechka-1993';
+$TEMP_PASS = '1pizza';
 
 $OWN_PASS = isset($KITCHEN_PASS) && $KITCHEN_PASS !== '';
 $PASS = $OWN_PASS ? $KITCHEN_PASS : $TEMP_PASS;
