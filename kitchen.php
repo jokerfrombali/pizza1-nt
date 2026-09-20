@@ -11,8 +11,12 @@ session_start();
 
 header('X-Robots-Tag: noindex');
 
+/* Временный пароль смены. Как только в config.local.php появится
+   $KITCHEN_PASS — он перекроет эту строку, и её можно удалить. */
+$TEMP_PASS = 'Pechka-1993';
+
 $OWN_PASS = isset($KITCHEN_PASS) && $KITCHEN_PASS !== '';
-$PASS = $OWN_PASS ? $KITCHEN_PASS : $ADMIN_PASS;
+$PASS = $OWN_PASS ? $KITCHEN_PASS : $TEMP_PASS;
 
 if (isset($_POST['pass'])) {
     if (hash_equals((string) $PASS, (string) $_POST['pass'])) {
@@ -66,7 +70,7 @@ $WHO = isset($_SESSION['who']) ? $_SESSION['who'] : '';
 </header>
 
 <?php if (!$OWN_PASS): ?>
-<div class="kwarn">Кухня сейчас пускает по паролю кабинета. Задайте <b>$KITCHEN_PASS</b> в config.local.php — отдельный пароль для смены.</div>
+<div class="kwarn">Работает временный пароль из кода. Задайте <b>$KITCHEN_PASS</b> в config.local.php — и это предупреждение пропадёт.</div>
 <?php endif; ?>
 
 <div class="kalarm" id="alarm" hidden>НОВЫЙ ЗАКАЗ — нажмите, чтобы выключить сигнал</div>
