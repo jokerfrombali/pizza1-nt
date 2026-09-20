@@ -1,0 +1,156 @@
+/* ============================================================
+   Кухонная доска. Рассчитана на планшет 10" в горизонтали
+   (1280×800 и выше). Тёмная тема — меньше бликов на кухне.
+   ============================================================ */
+
+:root{
+  --bg:#14110f; --panel:#1f1b18; --card:#2a2521; --line:#3a332e;
+  --txt:#f6f1ea; --mut:#a89c90;
+  --amber:#f5a524; --green:#2fb344; --red:#e5484d; --blue:#4c8dff;
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0}
+body{
+  background:var(--bg); color:var(--txt);
+  font:16px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  overflow:hidden; user-select:none; -webkit-user-select:none;
+}
+
+/* ---------- вход ---------- */
+.klogin{display:flex;align-items:center;justify-content:center;overflow:auto}
+.kloginbox{
+  width:min(420px,92vw);background:var(--panel);border:1px solid var(--line);
+  border-radius:18px;padding:28px;text-align:center
+}
+.kloginbox h1{margin:10px 0 22px;font-size:26px}
+.kloginbox label{display:block;text-align:left;color:var(--mut);font-size:14px;margin:12px 0 6px}
+.kloginbox input{
+  width:100%;padding:16px;font-size:20px;border-radius:12px;
+  border:1px solid var(--line);background:var(--card);color:var(--txt)
+}
+.kloginbox button{
+  width:100%;margin-top:22px;padding:18px;font-size:20px;font-weight:700;
+  border:0;border-radius:12px;background:var(--amber);color:#1a1512
+}
+
+/* ---------- шапка ---------- */
+.ktop{
+  display:flex;align-items:center;gap:10px;height:58px;padding:0 12px;
+  background:var(--panel);border-bottom:1px solid var(--line)
+}
+.kspacer{flex:1}
+.kbtn{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:42px;padding:0 14px;border:1px solid var(--line);border-radius:10px;
+  background:var(--card);color:var(--txt);font-size:16px;text-decoration:none;cursor:pointer
+}
+.kbtn--day{min-width:170px;font-weight:700}
+.kbtn--sound.is-on{background:var(--green);border-color:var(--green);color:#0d1f12;font-weight:700}
+.kday{display:flex;gap:6px}
+.kclock{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+.kstate{font-size:20px;color:var(--green)}
+.kstate.is-bad{color:var(--red)}
+.kwho{color:var(--mut);font-size:15px}
+.kwarn{background:#4a3a12;color:#ffd58a;padding:8px 14px;font-size:14px}
+
+/* ---------- сигнал нового заказа ---------- */
+.kalarm{
+  padding:12px;text-align:center;font-size:20px;font-weight:800;letter-spacing:.3px;
+  background:var(--red);color:#fff;cursor:pointer;animation:blink 1s steps(1,end) infinite
+}
+@keyframes blink{50%{background:#8d1f22}}
+
+/* ---------- доска ---------- */
+.kboard{
+  display:flex;gap:10px;padding:10px;height:calc(100% - 58px);align-items:stretch
+}
+body.has-warn .kboard{height:calc(100% - 58px - 33px)}
+body.has-alarm .kboard{height:calc(100% - 58px - 50px)}
+body.has-warn.has-alarm .kboard{height:calc(100% - 58px - 33px - 50px)}
+
+.kcol{
+  flex:1 1 0;min-width:0;display:flex;flex-direction:column;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden
+}
+.kcol.is-drop{outline:3px dashed var(--amber);outline-offset:-3px}
+.kcol__h{
+  display:flex;align-items:center;gap:8px;padding:10px 12px;
+  border-bottom:1px solid var(--line);font-size:17px;font-weight:700
+}
+.kcol__n{
+  margin-left:auto;min-width:30px;height:30px;padding:0 8px;border-radius:15px;
+  background:var(--card);display:flex;align-items:center;justify-content:center;font-size:16px
+}
+.kcol__b{flex:1;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:8px}
+.kcol--new .kcol__h{color:var(--amber)}
+.kcol--done .kcol__h{color:var(--mut)}
+.kempty{color:var(--mut);font-size:14px;text-align:center;padding:16px 6px}
+
+/* ---------- карточка ---------- */
+.kc{
+  background:var(--card);border:1px solid var(--line);border-left:6px solid var(--line);
+  border-radius:12px;padding:10px;cursor:pointer;touch-action:pan-y
+}
+.kc.is-warm{border-left-color:var(--amber)}
+.kc.is-hot{border-left-color:var(--red);background:#3a2320}
+.kc.is-drag{opacity:.35}
+.kc.is-done{opacity:.55}
+.kc__h{display:flex;align-items:baseline;gap:8px}
+.kc__no{font-size:22px;font-weight:800}
+.kc__t{margin-left:auto;font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--mut)}
+.kc.is-warm .kc__t{color:var(--amber)}
+.kc.is-hot .kc__t{color:#ff8a8a}
+.kc__tag{font-size:13px;font-weight:700;padding:2px 8px;border-radius:8px;background:#3a332e;color:var(--txt)}
+.kc__tag--pickup{background:#1d3a52;color:#9ccaff}
+.kc__items{margin:8px 0 0;font-size:18px;line-height:1.4}
+.kc__items b{font-size:20px}
+.kc__foot{display:flex;align-items:center;gap:8px;margin-top:8px;color:var(--mut);font-size:14px}
+.kc__sum{margin-left:auto;color:var(--txt);font-weight:700;font-size:16px}
+.kc__note{margin-top:6px;font-size:14px;color:#ffb4b4}
+
+/* карточка на лету */
+.kghost{
+  position:fixed;z-index:90;pointer-events:none;width:240px;
+  transform:rotate(-2deg) scale(1.03);box-shadow:0 18px 40px rgba(0,0,0,.6)
+}
+
+/* ---------- шторка заказа ---------- */
+.ksheet,.kdays{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center}
+.ksheet__bg{position:absolute;inset:0;background:rgba(0,0,0,.65)}
+.ksheet__box,.kdays__box{
+  position:relative;width:min(560px,94vw);max-height:92vh;overflow-y:auto;
+  background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px
+}
+.ks__no{font-size:30px;font-weight:800;margin:0 0 4px}
+.ks__meta{color:var(--mut);font-size:15px;margin:0 0 14px}
+.ks__items{font-size:19px;line-height:1.6;margin:0 0 12px}
+.ks__contact{background:var(--card);border-radius:12px;padding:12px;font-size:17px;line-height:1.5;margin-bottom:14px}
+.ks__contact a{color:var(--blue)}
+.ks__steps{color:var(--mut);font-size:14px;margin:0 0 14px;display:flex;flex-wrap:wrap;gap:10px}
+.ks__acts{display:flex;flex-wrap:wrap;gap:10px}
+.ks__acts button{
+  flex:1 1 46%;min-height:60px;font-size:18px;font-weight:700;border:0;border-radius:12px;
+  background:var(--card);color:var(--txt);cursor:pointer
+}
+.ks__acts .b-go{background:var(--green);color:#0d1f12}
+.ks__acts .b-print{background:var(--blue);color:#fff}
+.ks__acts .b-back{background:#3a332e}
+.ks__acts .b-cancel{background:var(--red);color:#fff}
+.ks__acts .b-close{flex:1 1 100%;background:transparent;border:1px solid var(--line)}
+
+/* ---------- панель дней ---------- */
+.kdays__box h2{margin:0 0 14px;font-size:22px}
+.kdrow{
+  display:flex;align-items:center;gap:12px;width:100%;padding:14px;margin-bottom:8px;
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  color:var(--txt);font-size:17px;cursor:pointer;text-align:left
+}
+.kdrow.is-cur{border-color:var(--amber)}
+.kdrow span{margin-left:auto;color:var(--mut);font-size:15px}
+
+/* ---------- узкий экран: доска скроллится вбок ---------- */
+@media (max-width:1100px){
+  .kboard{overflow-x:auto}
+  .kcol{flex:0 0 280px}
+}

@@ -1,0 +1,89 @@
+<?php
+/* ============================================================
+   Кухонная доска заказов. Отдельный вход, отдельная сессия.
+   Пароль: $KITCHEN_PASS в config.local.php.
+   Если он не задан — работает пароль кабинета, но с предупреждением.
+   ============================================================ */
+require dirname(__FILE__) . '/lib.php';
+
+session_name('pzkitchen');
+session_start();
+
+header('X-Robots-Tag: noindex');
+
+$OWN_PASS = isset($KITCHEN_PASS) && $KITCHEN_PASS !== '';
+$PASS = $OWN_PASS ? $KITCHEN_PASS : $ADMIN_PASS;
+
+if (isset($_POST['pass'])) {
+    if (hash_equals((string) $PASS, (string) $_POST['pass'])) {
+        $_SESSION['kit'] = 1;
+        $_SESSION['who'] = mb_substr(trim(strip_tags((string) (isset($_POST['who']) ? $_POST['who'] : ''))), 0, 30);
+    }
+    header('Location: kitchen.php'); exit;
+}
+if (isset($_GET['out'])) { session_destroy(); header('Location: kitchen.php'); exit; }
+
+if (empty($_SESSION['kit'])) { ?><!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Кухня — Пицца №1</title>
+<link rel="stylesheet" href="kitchen.css?v=1">
+</head><body class="klogin">
+<form method="post" class="kloginbox">
+<img src="logo.png" alt="" height="56">
+<h1>Кухня</h1>
+<label for="w">Смена (необязательно)</label>
+<input id="w" name="who" type="text" autocomplete="off" placeholder="Имя или смена">
+<label for="p">Пароль</label>
+<input id="p" name="pass" type="password" autocomplete="current-password" autofocus>
+<button type="submit">Войти</button>
+</form>
+</body></html><?php exit; }
+
+$WHO = isset($_SESSION['who']) ? $_SESSION['who'] : '';
+?><!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#14110f">
+<title>Кухня — Пицца №1</title>
+<link rel="stylesheet" href="kitchen.css?v=1">
+</head><body data-warn1="20" data-warn2="35"<?php if (!$OWN_PASS) { echo ' data-nopass="1"'; } ?>>
+
+<header class="ktop">
+  <button class="kbtn kbtn--sound" id="sound" title="Звук новых заказов">🔇 Звук выключен</button>
+  <div class="kday">
+    <button class="kbtn" id="prevDay">◀</button>
+    <button class="kbtn kbtn--day" id="dayBtn">Сегодня</button>
+    <button class="kbtn" id="nextDay">▶</button>
+  </div>
+  <div class="kspacer"></div>
+  <div class="kclock" id="clock">--:--</div>
+  <div class="kstate" id="state" title="Связь с сервером">●</div>
+  <?php if ($WHO !== ''): ?><div class="kwho"><?php echo htmlspecialchars($WHO, ENT_QUOTES, 'UTF-8'); ?></div><?php endif; ?>
+  <a class="kbtn" href="?out=1">Выход</a>
+</header>
+
+<?php if (!$OWN_PASS): ?>
+<div class="kwarn">Кухня сейчас пускает по паролю кабинета. Задайте <b>$KITCHEN_PASS</b> в config.local.php — отдельный пароль для смены.</div>
+<?php endif; ?>
+
+<div class="kalarm" id="alarm" hidden>НОВЫЙ ЗАКАЗ — нажмите, чтобы выключить сигнал</div>
+
+<main class="kboard" id="board"></main>
+
+<div class="ksheet" id="sheet" hidden>
+  <div class="ksheet__bg" data-close="1"></div>
+  <div class="ksheet__box" id="sheetBox"></div>
+</div>
+
+<div class="kdays" id="daysPanel" hidden>
+  <div class="ksheet__bg" data-close="1"></div>
+  <div class="kdays__box" id="daysBox"></div>
+</div>
+
+<iframe id="printer" title="печать" style="position:fixed;width:0;height:0;border:0;left:-9999px"></iframe>
+
+<script src="kitchen.js?v=1"></script>
+</body></html>
