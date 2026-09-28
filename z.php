@@ -84,7 +84,30 @@ $cancelled = ($o && $o['status'] === 'cancelled');
   </div>
 
   <p class="zfoot">Вопросы по заказу — <a href="tel:+79126097700">+7 912 609-77-00</a></p>
+<p class="zfoot zback"><a href="/">← Вернуться в меню</a></p>
 <?php endif; ?>
 </main>
+<?php if ($o): ?>
+<script>
+/* запоминаем заказ в браузере — на главной вместо корзины покажется его статус */
+(function () {
+  try {
+    var k = <?php echo json_encode($o['key']); ?>;
+    var cur = null;
+    try { cur = JSON.parse(localStorage.getItem('pizza1_order')); } catch (e) {}
+    if (!cur || cur.key !== k) {
+      localStorage.setItem('pizza1_order', JSON.stringify({
+        key: k, no: <?php echo (int) $o['no']; ?>, url: location.pathname + '?k=' + k,
+        status: <?php echo json_encode($o['status']); ?>,
+        label: <?php echo json_encode($cancelled ? 'Отменён' : $STEPS[$cur][1]); ?>,
+        created: <?php echo ((int) $o['created']) * 1000; ?>,
+        final: <?php echo ($cancelled || $o['status'] === 'done') ? 'true' : 'false'; ?>,
+        finalAt: Date.now()
+      }));
+    }
+  } catch (e) {}
+})();
+</script>
+<?php endif; ?>
 </body>
 </html>
