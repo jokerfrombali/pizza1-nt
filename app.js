@@ -448,18 +448,20 @@ function pizzaSlices() {
 
 function renderCart() {
   const count = cart.reduce((s, l) => s + l.qty, 0);
-  $('#cartCount').textContent = count;
+  const cc = $('#cartCount');
+  if (cc) cc.textContent = count;
   const body = $('#cartBody');
 
   if (!cart.length) {
-    body.innerHTML = `<div class="empty">
+    body.innerHTML = orderCardHTML() + `<div class="empty">
       ${OVEN_SVG}
       <p>Печь горячая, а корзина пустая.<br>Выберите пиццу — испечём.</p></div>`;
     $('#cartFoot').innerHTML = `<button class="pill pill--amber" disabled>Оформить заказ</button>`;
+    renderOrderChip();
     return;
   }
 
-  body.innerHTML = cart.map((l, i) => `<div class="line" data-i="${i}">
+  body.innerHTML = orderCardHTML() + cart.map((l, i) => `<div class="line" data-i="${i}">
     <div class="line__top">
       <span class="line__name">${l.name}</span>
       <span class="line__sum">${rub(l.price * l.qty)}</span>
@@ -503,6 +505,7 @@ function renderCart() {
       ? `<p class="hint hint--warn">Добавьте ещё на ${rub(left)} — и доставка в район «${zone().area}» станет бесплатной.</p>`
       : `<p class="hint hint--ok">Доставка бесплатная: заказ больше ${rub(t.free)}.</p>`}
     <button class="pill pill--amber" id="checkout">Оформить заказ</button>`;
+  renderOrderChip();
 }
 
 function addToCart(p, qty) {
@@ -802,8 +805,14 @@ $('#viewerVideo').addEventListener('timeupdate', e => {
 });
 $('#viewerVideo').addEventListener('ended', closeViewer);
 
-$('#cartToggle').addEventListener('click', () =>
-  $('#cartPanel').classList.contains('is-open') ? closeCart() : openCart());
+$('#cartToggle').addEventListener('click', () => {
+    if ($('#cartToggle').classList.contains('is-order') && order) {
+      ym_goal('order_status_open');
+      location.href = order.url;
+      return;
+    }
+    $('#cartPanel').classList.contains('is-open') ? closeCart() : openCart();
+  });
 $('#cartClose').addEventListener('click', closeCart);
 $('#scrim').addEventListener('click', closeCart);
 /* ---------- политика конфиденциальности ---------- */
@@ -1044,7 +1053,7 @@ $('#modalSubmit').addEventListener('click', () => {
       zone: fulfil === 'delivery' && zoneChosen() ? zone().area : '',
       payer: payer === 'company' ? 'юрлицо' : 'частное лицо'
     });
-    cart = []; save(); renderCart();
+    cart = []; save(); rememberOrder(res); renderCart();
     closeCheckout();
     closeCart();
     if (res.url) { setTimeout(() => { location.href = res.url; }, 1400); }
@@ -1331,6 +1340,119 @@ function renderShop() {
   $('#footName').textContent     = SHOP.name;
   $('#brandLink').setAttribute('aria-label', SHOP.name);
 }
+/* ---------- текущий заказ: статус вместо корзины ---------- */
+const ORDER_LS = 'pizza1_order';
+const ORDER_LABEL = { new:'Принят', accepted:'Подтверждён', cooking:'Готовится',
+  delivering:'Курьер в пути', ready:'Готов к выдаче', done:'Доставлен', cancelled:'Отменён' };
+const ORDER_TTL_ACTIVE = 24 * 3600 * 1000; // заказ не старше суток
+const ORDER_TTL_FINAL = 2 * 3600 * 1000;   // после выдачи показываем ещё два часа
+let order = null, orderTimer = null, cartToggleHTML = '';
+
+const orderSave = () => {
+  try { order ? localStorage.setItem(ORDER_LS, JSON.stringify(order)) : localStorage.removeItem(ORDER_LS); } catch {}
+};
+const orderLoad = () => {
+  try { order = JSON.parse(localStorage.getItem(ORDER_LS)) || null; } catch { order = null; }
+  if (order && (!order.key || !order.url)) order = null;
+};
+
+function orderExpired() {
+  if (!order) return true;
+  const now = Date.now();
+  if (now - (order.created || 0) > ORDER_TTL_ACTIVE) return true;
+  if (order.final && now - (order.finalAt || 0) > ORDER_TTL_FINAL) return true;
+  return false;
+}
+
+function rememberOrder(res) {
+  let key = '';
+  try { key = new URL(res.url, location.href).searchParams.get('k') || ''; } catch {}
+  if (!key) return;
+  order = { key, no: res.no || 0, url: res.url, status: 'new', label: ORDER_LABEL.new,
+    created: Date.now(), final: false, finalAt: 0 };
+  orderSave();
+  renderOrderChip();
+  scheduleOrderPoll(20000);
+}
+
+function clearOrder() {
+  order = null; orderSave();
+  clearTimeout(orderTimer);
+  renderOrderChip();
+}
+
+function scheduleOrderPoll(ms) {
+  clearTimeout(orderTimer);
+  if (!order || order.final) return;
+  orderTimer = setTimeout(pollOrder, ms);
+}
+
+function pollOrder() {
+  if (!order || orderExpired()) { clearOrder(); renderCart(); return; }
+  if (document.hidden) { scheduleOrderPoll(30000); return; }
+  fetch('order_status.php?k=' + encodeURIComponent(order.key), { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : Promise.reject(r.status))
+    .then(d => {
+      if (!d.ok) throw new Error('no');
+      const changed = d.status !== order.status;
+      order.status = d.status;
+      order.label = d.label || ORDER_LABEL[d.status] || d.status;
+      if (d.no) order.no = d.no;
+      if (d.final && !order.final) { order.final = true; order.finalAt = Date.now(); }
+      orderSave();
+      renderOrderChip();
+      if (changed) {
+        renderCart();
+        toast(`Заказ №${order.no}: ${order.label.toLowerCase()}`);
+      }
+      scheduleOrderPoll(30000);
+    })
+    .catch(e => {
+      if (e === 404) { clearOrder(); renderCart(); return; }
+      scheduleOrderPoll(60000);
+    });
+}
+
+/* кнопка в шапке: пока корзина пустая, вместо неё — номер и статус заказа */
+function renderOrderChip() {
+  const btn = $('#cartToggle');
+  if (!btn) return;
+  if (!cartToggleHTML) cartToggleHTML = btn.innerHTML;
+  const count = cart.reduce((s, l) => s + l.qty, 0);
+  const show = !!order && !orderExpired() && count === 0;
+  btn.classList.toggle('is-order', show);
+  btn.classList.toggle('is-final', show && !!order.final);
+  if (show) {
+    btn.innerHTML = `<span class="ochip__dot" aria-hidden="true"></span>` +
+      `<span class="ochip__no">№${order.no}</span><span class="ochip__st">${order.label}</span>`;
+    btn.setAttribute('aria-label', `Заказ №${order.no}: ${order.label}. Открыть статус`);
+  } else {
+    btn.innerHTML = cartToggleHTML;
+    btn.removeAttribute('aria-label');
+    const cc = $('#cartCount');
+    if (cc) cc.textContent = count;
+  }
+}
+
+/* карточка заказа внутри панели корзины */
+function orderCardHTML() {
+  if (!order || orderExpired()) return '';
+  return `<a class="ocard${order.final ? ' is-final' : ''}" href="${order.url}">
+    <span class="ocard__eyebrow">Ваш заказ №${order.no}</span>
+    <b class="ocard__st">${order.label}</b>
+    <span class="ocard__link">Открыть статус →</span></a>`;
+}
+
+function initOrderTrack() {
+  orderLoad();
+  if (order && orderExpired()) { order = null; orderSave(); }
+  renderOrderChip();
+  if (order) renderCart();
+  scheduleOrderPoll(1500);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && order && !order.final) { clearTimeout(orderTimer); pollOrder(); }
+  });
+}
 
 /* ---------- старт ---------- */
 load();
@@ -1340,6 +1462,7 @@ renderStories();
 renderTabs();
 renderMenu();
 renderCart();
+initOrderTrack();
 initScrollSpy();
 initHeadIcons();
 initDrawer();
