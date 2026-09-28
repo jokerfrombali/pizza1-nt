@@ -961,3 +961,22 @@ body.no-scroll{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 /* пресеты порций — три кнопки в один ряд */
 .sizes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
 .sizes button { white-space: nowrap; padding-left: 8px; padding-right: 8px; }
+
+
+/* ---------- заказ в шапке вместо корзины ---------- */
+#cartToggle.is-order{width:auto;height:40px;padding:0 14px 0 12px;border-radius:999px;gap:8px;font-size:13px;line-height:1;white-space:nowrap;background:var(--bg-3);color:var(--text);border:1.5px solid var(--amber-lt);max-width:min(62vw,260px)}
+#cartToggle.is-order:hover{background:var(--bg-4)}
+#cartToggle.is-order .ochip__dot{width:8px;height:8px;border-radius:50%;background:var(--amber-lt);flex:none;animation:ochipPulse 1.6s ease-in-out infinite}
+#cartToggle.is-order .ochip__no{font-family:var(--mono);font-size:12px;color:var(--muted);flex:none}
+#cartToggle.is-order .ochip__st{font-weight:600;overflow:hidden;text-overflow:ellipsis}
+#cartToggle.is-order.is-final{border-color:var(--basil)}
+#cartToggle.is-order.is-final .ochip__dot{background:var(--basil);animation:none}
+@keyframes ochipPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+@media (max-width:420px){#cartToggle.is-order .ochip__no{display:none}}
+@media (prefers-reduced-motion:reduce){#cartToggle.is-order .ochip__dot{animation:none}}
+.ocard{display:block;background:var(--bg-3);border:1px solid var(--amber-lt);border-radius:16px;padding:16px 18px;margin:0 0 16px;text-decoration:none;color:var(--text)}
+.ocard.is-final{border-color:var(--basil)}
+.ocard__eyebrow{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+.ocard__st{display:block;font-family:var(--display);text-transform:uppercase;font-size:22px;line-height:1.1;margin-bottom:8px}
+.ocard__link{font-size:14px;color:var(--amber-lt);font-weight:600}
+.zback{margin-top:18px}
