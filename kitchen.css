@@ -151,7 +151,7 @@ body.has-warn.has-alarm .kboard{height:calc(100% - 58px - 33px - 50px)}
 .kdrow span{margin-left:auto;color:var(--mut);font-size:15px}
 
 /* ---------- узкий экран: доска скроллится вбок ---------- */
-@media (max-width:1100px){
+@media (max-width:600px){
   .kboard{overflow-x:auto}
   .kcol{flex:0 0 280px}
 }

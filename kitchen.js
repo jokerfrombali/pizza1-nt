@@ -10,11 +10,10 @@ var WARN1 = (+B.dataset.warn1 || 20) * 60;   /* жёлтая карточка, �
 var WARN2 = (+B.dataset.warn2 || 35) * 60;   /* красная карточка, сек */
 var POLL = 5000;
 
+/* две колонки: всё незакрытое — в «Новые» (и старые статусы тоже) */
+var OPEN = ['new', 'accepted', 'cooking', 'ready', 'delivering'];
 var COLS = [
-  { id: 'new',      t: 'Новые',            st: ['new'] },
-  { id: 'accepted', t: 'Приняли',          st: ['accepted'] },
-  { id: 'cooking',  t: 'В печи',           st: ['cooking'] },
-  { id: 'ready',    t: 'Готово / в пути',  st: ['ready', 'delivering'] },
+  { id: 'new',      t: 'Новые',            st: OPEN },
   { id: 'done',     t: 'Выдан',            st: ['done', 'cancelled'] }
 ];
 var TITLE = {
@@ -211,27 +210,14 @@ setInterval(function () {
 
 /* ---------- переходы статусов ---------- */
 function colToStatus(colId, o) {
-  if (colId === 'ready') { return o.fulfil === 'pickup' ? 'ready' : 'delivering'; }
   if (colId === 'done') { return 'done'; }
-  return colId;
+  return OPEN.indexOf(o.status) >= 0 ? o.status : 'new';
 }
 function nextOf(o) {
-  switch (o.status) {
-    case 'new': return { to: 'accepted', label: '✅ Принять заказ' };
-    case 'accepted': return { to: 'cooking', label: '🔥 В печь' };
-    case 'cooking': return o.fulfil === 'pickup'
-      ? { to: 'ready', label: '📦 Готов к выдаче' }
-      : { to: 'delivering', label: '🛵 Передал курьеру' };
-    case 'ready': case 'delivering': return { to: 'done', label: '🏁 Выдан клиенту' };
-  }
-  return null;
+  return OPEN.indexOf(o.status) >= 0 ? { to: 'done', label: '🏁 Выдан клиенту' } : null;
 }
 function prevOf(o) {
-  var order = ['new', 'accepted', 'cooking'];
-  if (o.status === 'delivering' || o.status === 'ready') { return 'cooking'; }
-  if (o.status === 'done' || o.status === 'cancelled') { return null; }
-  var i = order.indexOf(o.status);
-  return i > 0 ? order[i - 1] : null;
+  return null;
 }
 
 function setStatus(key, to, reason) {
