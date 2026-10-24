@@ -70,23 +70,34 @@ const MENU = [
     desc:'Колбаса пепперони, сыр голландский, соус томатный, майонез. По желанию добавим халапеньо.', top:['pepperoni'] },
   { id:'p-brok',    cat:'pizza', name:'«Брокколи»',         price:145, unit:'150 гр', tag:'без мяса',
     desc:'Брокколи, яйцо, масло.', top:['basil','cheese'] },
-  { id:'p-kolobok', cat:'pizza', name:'Детская «Колобок»',  price:165, unit:'150 гр', tag:'детям',
-    desc:'Колбаса, сыр, соус, майонез.', top:['pepperoni','cheese'] },
+  { id:'p-chicken', cat:'pizza', name:'Пицца с куриной грудкой', price:170, unit:'160 гр',
+    desc:'Грудка копчёная, брокколи, яблоки, грецкие орехи, сливки, сыр, майонез.', top:['ham','basil','cheese'] },
 
-  { id:'d-coffee',  cat:'drink', name:'Кофе чёрный',        price:40, unit:'180 мл', desc:'Свежесваренный.', art:'cup' },
-  { id:'d-coffee3', cat:'drink', name:'Кофе 3 в 1',         price:50, unit:'180 мл', desc:'Растворимый, с молоком и сахаром.', art:'cup' },
-  { id:'d-tea',     cat:'drink', name:'Чай чёрный / зелёный',price:40, unit:'180 мл', desc:'На выбор, скажите при заказе.', art:'cup' },
-  { id:'d-tealem',  cat:'drink', name:'Чай с лимоном',      price:45, unit:'180 мл', desc:'Чёрный чай с долькой лимона.', art:'cup' },
+  /* заказ только кратно 2 порциям */
+  { id:'p-kolobok', cat:'pizza', name:'Детская «Колобок»',  price:165, unit:'150 гр', tag:'детям', pair:true,
+    desc:'Колбаса, сыр, помидоры, перец болгарский, маслины, соус, майонез.', top:['pepperoni','tomato','olive','cheese'] },
+  { id:'p-tuna',    cat:'pizza', name:'«Тунец-плюс»',       price:160, unit:'165 гр', pair:true,
+    desc:'Тунец, яблоко, лук репчатый, сыр, майонез.', top:['olive','basil','cheese'] },
+  { id:'p-village', cat:'pizza', name:'«Деревенская»',      price:145, unit:'150 гр', tag:'без мяса', pair:true,
+    desc:'Картофельное пюре, огурец солёный, лук жареный, сыр, майонез.', top:['basil','pepper','cheese'] },
+  { id:'p-sweet',   cat:'pizza', name:'«Восточная сладость»', price:135, unit:'125 гр', tag:'сладкая', pair:true,
+    desc:'Халва, сыр сливочный, грецкий орех, йогурт.', top:['pineapple','cheese'] },
 
-  { id:'e-sauce',   cat:'extra', name:'Соус томатный острый',            price:30,  unit:'30 гр',  desc:'Порционный.', art:'sauce' },
-  { id:'e-sauceb',  cat:'extra', name:'Соус томатный острый большой',    price:120, unit:'120 гр', desc:'На четыре порции.', art:'sauce' },
-  { id:'e-mayo',    cat:'extra', name:'Майонез',                         price:20,  unit:'30 гр',  desc:'Порционный.', art:'sauce' },
-  { id:'e-boxm',    cat:'extra', name:'Коробка для пиццы средняя',       price:45,  unit:'',       desc:'Для заказа навынос.', art:'box' },
-  { id:'e-boxl',    cat:'extra', name:'Коробка для пиццы большая',       price:65,  unit:'',       desc:'Для заказа навынос.', art:'box' },
-  { id:'e-plate',   cat:'extra', name:'Тарелка одноразовая',             price:10,  unit:'',       desc:'', art:'plate' },
-  { id:'e-glass',   cat:'extra', name:'Стакан одноразовый',              price:10,  unit:'',       desc:'', art:'cup' },
-  { id:'e-bag',     cat:'extra', name:'Пакет-переноска для пиццы',       price:10,  unit:'',       desc:'', art:'bag' },
-  { id:'e-cont',    cat:'extra', name:'Контейнер',                       price:15,  unit:'',       desc:'', art:'container' }
+  { id:'d-coffee',  cat:'drink', name:'Кофе чёрный',        price:45, unit:'180 мл', desc:'Свежесваренный.', art:'cup' },
+  { id:'d-coffee3', cat:'drink', name:'Кофе 3 в 1',         price:55, unit:'180 мл', desc:'Растворимый, с молоком и сахаром.', art:'cup' },
+  { id:'d-tea',     cat:'drink', name:'Чай чёрный / зелёный',price:45, unit:'180 мл', desc:'На выбор, скажите при заказе.', art:'cup' },
+  { id:'d-tealem',  cat:'drink', name:'Чай с лимоном',      price:50, unit:'180 мл', desc:'Чёрный чай с долькой лимона.', art:'cup' },
+
+  { id:'e-sauce',   cat:'extra', name:'Соус томатный острый',            price:35,  unit:'30 гр',  desc:'Порционный.', art:'sauce' },
+  { id:'e-sauceb',  cat:'extra', name:'Соус томатный острый большой',    price:140, unit:'120 гр', desc:'На четыре порции.', art:'sauce' },
+  { id:'e-mayo',    cat:'extra', name:'Майонез',                         price:25,  unit:'30 гр',  desc:'Порционный.', art:'sauce' },
+  { id:'e-boxs',    cat:'extra', name:'Коробка для пиццы маленькая',     price:35,  unit:'',       desc:'Для заказа навынос.', art:'box' },
+  { id:'e-boxm',    cat:'extra', name:'Коробка для пиццы средняя',       price:50,  unit:'',       desc:'Для заказа навынос.', art:'box' },
+  { id:'e-boxl',    cat:'extra', name:'Коробка для пиццы большая',       price:70,  unit:'',       desc:'Для заказа навынос.', art:'box' },
+  { id:'e-plate',   cat:'extra', name:'Тарелка одноразовая',             price:15,  unit:'',       desc:'', art:'plate' },
+  { id:'e-glass',   cat:'extra', name:'Стакан одноразовый',              price:15,  unit:'',       desc:'', art:'cup' },
+  { id:'e-bag',     cat:'extra', name:'Пакет-переноска для пиццы',       price:15,  unit:'',       desc:'', art:'bag' },
+  { id:'e-cont',    cat:'extra', name:'Контейнер',                       price:20,  unit:'',       desc:'', art:'container' }
 ];
 
 /* ---------- подробности о доставке и оплате ---------- */
@@ -243,6 +254,8 @@ let fulfil = 'delivery', payMethod = 'cash', zoneIdx = 0, payer = 'person';
 
 const save = () => { try { localStorage.setItem('pizza1_cart', JSON.stringify(cart)); } catch {} };
 const load = () => { try { cart = JSON.parse(localStorage.getItem('pizza1_cart')) || []; } catch { cart = []; } };
+/* сохранённая корзина берёт цены из текущего меню */
+const repriceCart = () => { cart.forEach(l => { const p = MENU.find(m => m.id === l.id); if (p) l.price = p.price; }); };
 
 /* ---------- витрина ---------- */
 function renderStories() {
@@ -270,7 +283,8 @@ const TAGS = {
   'острая':   { icon:'chili', color:'#F0644A' },
   'сытная':   { icon:'flame', color:'#F5B43C' },
   'без мяса': { icon:'leaf',  color:'#7FBF68' },
-  'детям':    { icon:'star',  color:'#7C9BF0' }
+  'детям':    { icon:'star',  color:'#7C9BF0' },
+  'сладкая':  { icon:'star',  color:'#E58BB5' }
 };
 function badgeHTML(p) {
   if (!p.tag) return '';
@@ -323,6 +337,7 @@ function openProd(id) {
 const WHOLE = 8;
 const MIN_SLICES = 2;   // минимум — 2 порции
 const STEP = 1;         // шаг — одна порция
+const stepOf = p => p && p.pair ? 2 : STEP;   // pair: только кратно 2 порциям
 
 function renderProdQty() {
   const p = openProduct;
@@ -346,7 +361,7 @@ function renderProdQty() {
         <button class="amount__b" data-d="1" aria-label="Больше">+</button>
       </div>
 
-      <p class="pmodal__hint">Одного вида — от 2 порций, дальше по одной: можно 3, 5, 7. Целая пицца — 8 порций, ${rub(p.price * WHOLE)}.</p>`;
+      <p class="pmodal__hint">${p.pair ? 'Эту пиццу готовим только кратно 2 порциям: 2, 4, 6, 8.' : 'Одного вида — от 2 порций, дальше по одной: можно 3, 5, 7.'} Целая пицца — 8 порций, ${rub(p.price * WHOLE)}.</p>`;
     $('#prodPrice').textContent = rub(p.price * openQty);
   } else {
     box.innerHTML = `<p class="pmodal__label">Количество</p>
@@ -414,7 +429,7 @@ const totals = () => {
 };
 
 /* ---------- стоимость упаковки ---------- */
-const BOX_PRICES = { 2: 35, 4: 45, 8: 65 };
+const BOX_PRICES = { 2: 35, 4: 50, 8: 70 };
 const BOX_NAMES  = { 8: 'целая', 4: 'половина', 2: 'малая' };
 
 function boxPlan(slices) {
@@ -584,7 +599,7 @@ $('#prodQty').addEventListener('click', e => {
   if (n) openQty = +n.dataset.n;
   else if (d) {
     if (isPizza(openProduct)) {
-      openQty = Math.max(MIN_SLICES, Math.min(160, openQty + (+d.dataset.d) * STEP));
+      openQty = Math.max(MIN_SLICES, Math.min(160, openQty + (+d.dataset.d) * stepOf(openProduct)));
     } else {
       openQty = Math.max(1, Math.min(50, openQty + +d.dataset.d));
     }
@@ -756,7 +771,7 @@ $('#cartBody').addEventListener('click', e => {
   if (step) {
     const _p = byId(cart[i].id);
     const _min = _p && isPizza(_p) ? MIN_SLICES : 1;
-    cart[i].qty += +step.dataset.step;
+    cart[i].qty += +step.dataset.step * (_p && isPizza(_p) ? stepOf(_p) : 1);
     if (cart[i].qty < _min) cart.splice(i, 1);
   } else if (e.target.closest('[data-drop]')) {
     cart.splice(i, 1);
@@ -1456,6 +1471,7 @@ function initOrderTrack() {
 
 /* ---------- старт ---------- */
 load();
+repriceCart();
 trackHeadHeight();
 renderShop();
 renderStories();

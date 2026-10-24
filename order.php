@@ -59,7 +59,7 @@ if (!$items) {
 function box_cost($slices) {
     $n = (int) $slices;
     if ($n < 1) { return 0; }
-    $prices = array(2 => 35, 4 => 45, 8 => 65);
+    $prices = array(2 => 35, 4 => 50, 8 => 70);
     $best = array(0 => 0);
     for ($i = 1; $i <= $n; $i++) {
         $best[$i] = PHP_INT_MAX;
