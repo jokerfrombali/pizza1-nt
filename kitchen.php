@@ -65,7 +65,7 @@ $WHO = isset($_SESSION['who']) ? $_SESSION['who'] : '';
 <meta name="theme-color" content="#14110f">
 <title>Кухня — Пицца №1</title>
 <link rel="stylesheet" href="kitchen.css?v=4">
-</head><body data-warn1="20" data-warn2="35"<?php if (!$OWN_PASS) { echo ' data-nopass="1"'; } ?>>
+</head><body data-warn1="20" data-warn2="35">
 
 <header class="ktop">
   <button class="kbtn kbtn--sound" id="sound" title="Звук новых заказов">🔇 Звук выключен</button>
@@ -80,10 +80,6 @@ $WHO = isset($_SESSION['who']) ? $_SESSION['who'] : '';
   <?php if ($WHO !== ''): ?><div class="kwho"><?php echo htmlspecialchars($WHO, ENT_QUOTES, 'UTF-8'); ?></div><?php endif; ?>
   <a class="kbtn" href="?out=1">Выход</a>
 </header>
-
-<?php if (!$OWN_PASS): ?>
-<div class="kwarn">Работает временный пароль из кода. Задайте <b>$KITCHEN_PASS</b> в config.local.php — и это предупреждение пропадёт.</div>
-<?php endif; ?>
 
 <div class="kalarm" id="alarm" hidden>НОВЫЙ ЗАКАЗ — нажмите, чтобы выключить сигнал</div>
 
