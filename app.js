@@ -40,7 +40,11 @@ const PORTIONS = [1, 2, 4, 8];
 /* ---------- разделы ---------- */
 const CATS = [
   { id:'pizza', label:'Пицца'    },
-  { id:'drink', label:'Напитки'  },
+  { id:'drink', label:'Горячие напитки' },
+  { id:'juice', label:'Соки и морсы' },
+  { id:'soda',  label:'Вода и газировка' },
+  { id:'cold',  label:'Холодный чай и энергетики' },
+  { id:'milk',  label:'Молочные коктейли' },
   { id:'extra', label:'Разное'   }
 ];
 
@@ -84,9 +88,66 @@ const MENU = [
     desc:'Халва, сыр сливочный, грецкий орех, йогурт.', top:['pineapple','cheese'] },
 
   { id:'d-coffee',  cat:'drink', name:'Кофе чёрный',        price:45, unit:'180 мл', desc:'Свежесваренный.', art:'cup' },
-  { id:'d-coffee3', cat:'drink', name:'Кофе 3 в 1',         price:55, unit:'180 мл', desc:'Растворимый, с молоком и сахаром.', art:'cup' },
-  { id:'d-tea',     cat:'drink', name:'Чай чёрный / зелёный',price:45, unit:'180 мл', desc:'На выбор, скажите при заказе.', art:'cup' },
+  { id:'d-coffeeg', cat:'drink', name:'Кофе молотый',       price:null, unit:'180 мл', desc:'Заварной, из молотых зёрен.', art:'cup' },
+  { id:'d-coffee3', cat:'drink', name:'Кофе Monarch Classic 3 в 1', price:55, unit:'180 мл', desc:'Растворимый, с молоком и сахаром.', art:'cup' },
+  { id:'d-coffee3m',cat:'drink', name:'Кофе Monarch Mild 3 в 1',    price:55, unit:'180 мл', desc:'Мягкий вкус, с молоком и сахаром.', art:'cup' },
+  { id:'d-coffee4c',cat:'drink', name:'Кофе Monarch 4 в 1 Карамель',     price:null, unit:'180 мл', desc:'С молоком, сахаром и карамелью.', art:'cup' },
+  { id:'d-coffee4n',cat:'drink', name:'Кофе Monarch 4 в 1 Лесной орех',  price:null, unit:'180 мл', desc:'С молоком, сахаром и лесным орехом.', art:'cup' },
+  { id:'d-raf',     cat:'drink', name:'Кофе Monarch Раф малиновый',      price:null, unit:'180 мл', desc:'Сливочный раф с малиной.', art:'cup' },
+  { id:'d-tea',     cat:'drink', name:'Чай чёрный Greenfield Golden Ceylon', price:45, unit:'180 мл', desc:'Чёрный цейлонский.', art:'cup' },
+  { id:'d-teag',    cat:'drink', name:'Чай зелёный Greenfield Flying Dragon', price:45, unit:'180 мл', desc:'Зелёный китайский.', art:'cup' },
   { id:'d-tealem',  cat:'drink', name:'Чай с лимоном',      price:50, unit:'180 мл', desc:'Чёрный чай с долькой лимона.', art:'cup' },
+
+  /* цены null — позиция видна, но заказать нельзя, пока не поставим цену */
+  { id:'j-dob-multi',  cat:'juice', name:'Сок Добрый Мультифрукт', desc:'', art:'cup',
+    vols:[{ v:'0,3 л', price:null, photo:'j-dob-multi-03' }, { v:'1 л', price:null, photo:'j-dob-multi-1' }] },
+  { id:'j-dob-apple',  cat:'juice', name:'Сок Добрый Яблоко', desc:'', art:'cup',
+    vols:[{ v:'0,3 л', price:null, photo:'j-dob-apple-03' }, { v:'1 л', price:null, photo:'j-dob-apple-1' }] },
+  { id:'j-dob-tomato', cat:'juice', name:'Сок Добрый Томат', desc:'', art:'cup',
+    vols:[{ v:'0,3 л', price:null, photo:'j-dob-tomato-03' }, { v:'1 л', price:null, photo:'j-dob-tomato-1' }] },
+  { id:'j-dob-orange', cat:'juice', name:'Сок Добрый Апельсин-мандарин', price:null, unit:'0,3 л', desc:'', art:'cup' },
+  { id:'j-dob-mors',   cat:'juice', name:'Морс Добрый Брусника-морошка', price:null, unit:'1 л', desc:'', art:'cup' },
+  { id:'j-pulpy-orange', cat:'juice', name:'Pulpy Апельсин', desc:'Сок с мякотью апельсина.', art:'cup',
+    vols:[{ v:'0,5 л', price:null, photo:'j-pulpy-orange-05' }, { v:'1 л', price:null, photo:'j-pulpy-orange-1' }] },
+  { id:'j-pulpy-trop', cat:'juice', name:'Pulpy Тропический', price:null, unit:'0,5 л', desc:'', art:'cup' },
+  { id:'j-vp-ananas',  cat:'juice', name:'Волжский посад Ананас-мандарин', price:null, unit:'1 л', desc:'', art:'cup' },
+  { id:'j-vp-granat',  cat:'juice', name:'Волжский посад Гранат-клюква-яблоко', price:null, unit:'1 л', desc:'', art:'cup' },
+  { id:'j-vp-peach',   cat:'juice', name:'Волжский посад Персик-яблоко', price:null, unit:'1 л', desc:'', art:'cup' },
+  { id:'j-vp-mors',    cat:'juice', name:'Морс Волжский посад Смородина-брусника-морошка', price:null, unit:'1 л', desc:'', art:'cup' },
+  { id:'j-vp-lemonade',cat:'juice', name:'Лимонад Волжский посад Лимон-лайм-мята', price:null, unit:'1 л', desc:'', art:'cup' },
+  { id:'j-vp-multi',   cat:'juice', name:'Сок Волжский посад Мультифрукт', price:null, unit:'200 мл', desc:'', art:'cup' },
+  { id:'j-vp-apple',   cat:'juice', name:'Сок Волжский посад Яблоко', price:null, unit:'200 мл', desc:'', art:'cup' },
+  { id:'j-vp-grape',   cat:'juice', name:'Сок Волжский посад Яблоко-виноград', price:null, unit:'200 мл', desc:'', art:'cup' },
+  { id:'j-sp-apricot', cat:'juice', name:'Сок Сады Придонья Яблоко-абрикос', price:null, unit:'200 мл', desc:'Детский, без сахара.', art:'cup' },
+  { id:'j-sp-cherry',  cat:'juice', name:'Сок Сады Придонья Яблоко-вишня', price:null, unit:'200 мл', desc:'Детский, без сахара.', art:'cup' },
+  { id:'j-sp-peach',   cat:'juice', name:'Сок Сады Придонья Яблоко-персик', price:null, unit:'200 мл', desc:'Детский, без сахара.', art:'cup' },
+
+  { id:'s-cola',   cat:'soda', name:'Добрый Cola', desc:'', art:'cup',
+    vols:[{ v:'0,3 л', price:null, photo:'s-cola-03' }, { v:'0,5 л', price:null, photo:'s-cola-05' }, { v:'1 л', price:null, photo:'s-cola-1' }] },
+  { id:'s-orange', cat:'soda', name:'Добрый Апельсин', desc:'', art:'cup',
+    vols:[{ v:'0,3 л', price:null, photo:'s-orange-03' }, { v:'0,5 л', price:null, photo:'s-orange-05' }, { v:'1 л', price:null, photo:'s-orange-1' }] },
+  { id:'s-lime',   cat:'soda', name:'Добрый Лимон-лайм', desc:'', art:'cup',
+    vols:[{ v:'0,3 л', price:null, photo:'s-lime-03' }, { v:'0,5 л', price:null, photo:'s-lime-05' }, { v:'1 л', price:null, photo:'s-lime-1' }] },
+  { id:'s-bon-still', cat:'soda', name:'BonAqua негазированная', price:null, unit:'0,5 л', desc:'', art:'cup' },
+  { id:'s-bon-gas',   cat:'soda', name:'BonAqua газированная',   price:null, unit:'0,5 л', desc:'', art:'cup' },
+
+  { id:'c-rich-green', cat:'cold', name:'Rich Зелёный чай',          price:null, unit:'0,5 л', desc:'', art:'cup' },
+  { id:'c-rich-rasp',  cat:'cold', name:'Rich Зелёный чай Малина',   price:null, unit:'0,5 л', desc:'', art:'cup' },
+  { id:'c-rich-mango', cat:'cold', name:'Rich Зелёный чай Манго',    price:null, unit:'0,5 л', desc:'', art:'cup' },
+  { id:'c-rich-lemon', cat:'cold', name:'Rich Чёрный чай Лимон',     price:null, unit:'0,5 л', desc:'', art:'cup' },
+  { id:'c-rich-peach', cat:'cold', name:'Rich Чёрный чай Персик',    price:null, unit:'0,5 л', desc:'', art:'cup' },
+  { id:'c-burn-orig',  cat:'cold', name:'Burn Оригинальный',         price:null, unit:'0,45 л', desc:'Энергетический напиток.', art:'cup' },
+  { id:'c-burn-juicy', cat:'cold', name:'Burn Сочная энергия',       price:null, unit:'0,45 л', desc:'Энергетический напиток.', art:'cup' },
+  { id:'c-burn-trop',  cat:'cold', name:'Burn Тропический микс',     price:null, unit:'0,45 л', desc:'Энергетический напиток.', art:'cup' },
+  { id:'c-burn-apple', cat:'cold', name:'Burn Яблоко-киви',          price:null, unit:'0,45 л', desc:'Энергетический напиток.', art:'cup' },
+
+  { id:'m-top-banana',  cat:'milk', name:'Топтыжка Банан',                price:null, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
+  { id:'m-top-vanilla', cat:'milk', name:'Топтыжка Ванильное мороженое',  price:null, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
+  { id:'m-top-caramel', cat:'milk', name:'Топтыжка Карамельная ириска',   price:null, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
+  { id:'m-top-rasp',    cat:'milk', name:'Топтыжка Малина',               price:null, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
+  { id:'m-top-mango',   cat:'milk', name:'Топтыжка Манго-клубника',       price:null, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
+  { id:'m-top-choco',   cat:'milk', name:'Топтыжка Шоколадный пломбир с маршмеллоу', price:null, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
+  { id:'m-chudo',       cat:'milk', name:'Чудо Ванильный пломбир',        price:null, unit:'210 г', desc:'Молочный коктейль.', art:'cup' },
 
   { id:'e-sauce',   cat:'extra', name:'Соус томатный острый',            price:35,  unit:'30 гр',  desc:'Порционный.', art:'sauce' },
   { id:'e-sauceb',  cat:'extra', name:'Соус томатный острый большой',    price:140, unit:'120 гр', desc:'На четыре порции.', art:'sauce' },
@@ -185,7 +246,12 @@ function ym_goal(name, params) {
 
 const rub = n => new Intl.NumberFormat('ru-RU').format(Math.round(n)) + ' ₽';
 const isPizza = p => p.cat === 'pizza';
-const byId = id => MENU.find(p => p.id === id);
+/* строка корзины для позиции с объёмами: id~номер объёма */
+const baseId = id => String(id).split('~')[0];
+const byId = id => MENU.find(p => p.id === baseId(id));
+const volOf = (p, vi) => p.vols ? p.vols[vi || 0] : null;
+const priceOf = (p, vi) => { const v = volOf(p, vi); return v ? v.price : p.price; };
+const hasPrice = (p, vi) => priceOf(p, vi) != null;
 
 function seeded(seed) {
   let h = 0;
@@ -242,20 +308,22 @@ const OTHER_ART = {
   container:`<path d="M46 84h108l-8 76a8 8 0 0 1-8 7H62a8 8 0 0 1-8-7Z" fill="#EFE6D4" stroke="#17171A" stroke-width="3"/><rect x="38" y="66" width="124" height="20" rx="7" fill="#B9C2D4" stroke="#17171A" stroke-width="3"/><path d="M74 108v40M100 108v40M126 108v40" stroke="#17171A" stroke-width="2" opacity=".35"/>`
 };
 const otherSVG = p => `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${p.name}">${OTHER_ART[p.art] || OTHER_ART.box}</svg>`;
-const PIZZA_PHOTO = 'img_pizza.webp';
-const artOf = p => isPizza(p)
-  ? `<img class="pizza-photo" src="${PIZZA_PHOTO}" alt="${p.name}" loading="lazy" width="400" height="400">`
-  : otherSVG(p);
+/* фото товаров: img/menu/<id>.webp, у пицц для карточек есть лёгкая -sm версия */
+const MENU_IMG = 'img/menu/';
+const photoOf = (p, vi) => { const v = volOf(p, vi); return v ? v.photo : p.id; };
+const artOf = (p, vi, big) => isPizza(p)
+  ? `<img class="pizza-photo" src="${MENU_IMG}${p.id}${big ? '' : '-sm'}.webp" alt="${p.name}" loading="lazy" width="${big ? 600 : 360}" height="${big ? 600 : 360}">`
+  : `<img class="item-photo" src="${MENU_IMG}${photoOf(p, vi)}.webp" alt="${p.name}" loading="lazy" width="440" height="440">`;
 
 /* ---------- состояние ---------- */
 let cart = [];
-let openProduct = null, openQty = 1;
+let openProduct = null, openQty = 1, openVol = 0;
 let fulfil = 'delivery', payMethod = 'cash', zoneIdx = 0, payer = 'person';
 
 const save = () => { try { localStorage.setItem('pizza1_cart', JSON.stringify(cart)); } catch {} };
 const load = () => { try { cart = JSON.parse(localStorage.getItem('pizza1_cart')) || []; } catch { cart = []; } };
 /* сохранённая корзина берёт цены из текущего меню */
-const repriceCart = () => { cart.forEach(l => { const p = MENU.find(m => m.id === l.id); if (p) l.price = p.price; }); };
+const repriceCart = () => { cart.forEach(l => { const p = byId(l.id); const pr = p && priceOf(p, String(l.id).split('~')[1]); if (pr != null) l.price = pr; }); };
 
 /* ---------- витрина ---------- */
 function renderStories() {
@@ -293,13 +361,21 @@ function badgeHTML(p) {
     <svg viewBox="0 0 24 24" aria-hidden="true">${TAG_ICON[t.icon]}</svg>${p.tag}</span>`;
 }
 
+function itemPrice(p) {
+  const prices = (p.vols ? p.vols.map(v => v.price) : [p.price]).filter(x => x != null);
+  const unit = p.vols ? p.vols.map(v => v.v).join(' · ') : p.unit;
+  const small = unit ? `<small>${unit}</small>` : '';
+  if (!prices.length) return `<span class="price price--tbd">Цена уточняется${small}</span>`;
+  return `<span class="price">${prices.length > 1 ? '<i>от</i>' : ''}${rub(Math.min(...prices))}${small}</span>`;
+}
+
 function cardHTML(p) {
   return `<article class="card" data-id="${p.id}" tabindex="0" role="button" aria-label="${p.name} — открыть карточку">
       <div class="card__art">${artOf(p)}${badgeHTML(p)}</div>
       <h3>${p.name}</h3>
 
       <div class="card__buy">
-        <span class="price">${isPizza(p) ? '<i>от</i>' : ''}${rub(isPizza(p) ? p.price * MIN_SLICES : p.price)}${p.unit ? `<small>${isPizza(p) ? `за ${MIN_SLICES} порции по ` : ''}${p.unit}</small>` : ''}${isPizza(p) ? `<b class="price__whole">целая — ${rub(p.price * 8)}</b>` : ''}</span>
+        ${isPizza(p) ? `<span class="price"><i>от</i>${rub(p.price * MIN_SLICES)}<small>за ${MIN_SLICES} порции по ${p.unit}</small><b class="price__whole">целая — ${rub(p.price * 8)}</b></span>` : itemPrice(p)}
         <button class="pill pill--amber" data-add>Выбрать</button>
       </div>
     </article>`;
@@ -322,7 +398,8 @@ function openProd(id) {
   if (!p) return;
   openProduct = p;
   openQty = isPizza(p) ? MIN_SLICES : 1;
-  $('#prodArt').innerHTML  = artOf(p) + badgeHTML(p);
+  openVol = 0;
+  $('#prodArt').innerHTML  = artOf(p, 0, true) + badgeHTML(p);
   $('#prodName').textContent = p.name;
   $('#prodUnit').textContent = p.unit ? `Выход ${p.unit}${isPizza(p) ? ' · тесто пышное' : ''}` : '';
   $('#prodUnit').hidden = !p.unit;
@@ -364,14 +441,20 @@ function renderProdQty() {
       <p class="pmodal__hint">${p.pair ? 'Эту пиццу готовим только кратно 2 порциям: 2, 4, 6, 8.' : 'Одного вида — от 2 порций, дальше по одной: можно 3, 5, 7.'} Целая пицца — 8 порций, ${rub(p.price * WHOLE)}.</p>`;
     $('#prodPrice').textContent = rub(p.price * openQty);
   } else {
-    box.innerHTML = `<p class="pmodal__label">Количество</p>
+    box.innerHTML = (p.vols ? `<p class="pmodal__label">Объём</p>
+      <div class="sizes">${p.vols.map((v, i) =>
+        `<button data-vol="${i}" aria-pressed="${i === openVol}">${v.v}</button>`).join('')}</div>` : '') +
+      `<p class="pmodal__label">Количество</p>
       <div class="amount">
         <button class="amount__b" data-d="-1" aria-label="Меньше">−</button>
-        <div class="amount__now"><b>${openQty} шт.</b><span>${p.unit || ''}</span></div>
+        <div class="amount__now"><b>${openQty} шт.</b><span>${p.vols ? p.vols[openVol].v : (p.unit || '')}</span></div>
         <button class="amount__b" data-d="1" aria-label="Больше">+</button>
       </div>`;
-    $('#prodPrice').textContent = rub(p.price * openQty);
+    $('#prodPrice').textContent = hasPrice(p, openVol) ? rub(priceOf(p, openVol) * openQty) : 'Цена уточняется';
   }
+  const can = hasPrice(p, openVol);
+  $('#prodAdd').disabled = !can;
+  $('#prodAdd').textContent = can ? 'В корзину' : 'Скоро в продаже';
 }
 
 function wholeNote(l) {
@@ -493,7 +576,7 @@ function renderCart() {
   </div>`).join('');
 
   const inCart = new Set(cart.map(l => l.id));
-  const offers = UPSELL.map(byId).filter(p => p && !inCart.has(p.id)).slice(0, 4);
+  const offers = UPSELL.map(byId).filter(p => p && hasPrice(p) && !inCart.has(p.id)).slice(0, 4);
   if (offers.length) {
     body.insertAdjacentHTML('beforeend', `
       <div class="upsell">
@@ -501,7 +584,7 @@ function renderCart() {
         <div class="upsell__row">
           ${offers.map(p => `
             <button class="up" data-up="${p.id}">
-              <span class="up__art">${otherSVG(p)}</span>
+              <span class="up__art">${artOf(p)}</span>
               <span class="up__name">${p.name}</span>
               <span class="up__price">${rub(p.price)}<i>+</i></span>
             </button>`).join('')}
@@ -523,11 +606,14 @@ function renderCart() {
   renderOrderChip();
 }
 
-function addToCart(p, qty) {
-  const meta = isPizza(p) ? `порция ${p.unit}` : p.unit;
-  const found = cart.find(l => l.id === p.id);
+function addToCart(p, qty, vi) {
+  const v = volOf(p, vi);
+  if (!hasPrice(p, vi)) return;
+  const id = v ? `${p.id}~${vi || 0}` : p.id;
+  const meta = isPizza(p) ? `порция ${p.unit}` : (v ? v.v : p.unit);
+  const found = cart.find(l => l.id === id);
   if (found) found.qty += qty;
-  else cart.push({ id:p.id, name:p.name, meta, price:p.price, qty });
+  else cart.push({ id, name: v ? `${p.name} ${v.v}` : p.name, meta, price: priceOf(p, vi), qty });
   save(); renderCart();
   toast(isPizza(p) ? `${p.name} — ${sizeName(qty).toLowerCase()} в корзине` : `${p.name} — в корзине`);
 }
@@ -596,7 +682,12 @@ $('#sections').addEventListener('keydown', e => {
 $('#prodQty').addEventListener('click', e => {
   const n = e.target.closest('[data-n]');
   const d = e.target.closest('[data-d]');
-  if (n) openQty = +n.dataset.n;
+  const vb = e.target.closest('[data-vol]');
+  if (vb) {
+    openVol = +vb.dataset.vol;
+    $('#prodArt').innerHTML = artOf(openProduct, openVol, true) + badgeHTML(openProduct);
+  }
+  else if (n) openQty = +n.dataset.n;
   else if (d) {
     if (isPizza(openProduct)) {
       openQty = Math.max(MIN_SLICES, Math.min(160, openQty + (+d.dataset.d) * stepOf(openProduct)));
@@ -744,15 +835,15 @@ function flyToCart(sourceEl, spicy) {
 }
 
 $('#prodAdd').addEventListener('click', () => {
-  if (!openProduct) return;
+  if (!openProduct || !hasPrice(openProduct, openVol)) return;
   const art = $('#prodArt');
   const spicy = openProduct.tag === 'острая';
   const p = openProduct;
-  const q = openQty;
+  const q = openQty, vi = openVol;
   flyToCart(art, spicy);
   closeProd();
-  addToCart(p, q);
-  ym_goal('add_to_cart', { item: p.name, qty: q, sum: p.price * q });
+  addToCart(p, q, vi);
+  ym_goal('add_to_cart', { item: p.name, qty: q, sum: priceOf(p, vi) * q });
 });
 $('#prodClose').addEventListener('click', closeProd);
 $('#prod').addEventListener('click', e => { if (e.target.id === 'prod') closeProd(); });
