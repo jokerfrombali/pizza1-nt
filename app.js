@@ -100,54 +100,54 @@ const MENU = [
 
   /* цены null — позиция видна, но заказать нельзя, пока не поставим цену */
   { id:'j-dob-multi',  cat:'juice', name:'Сок Добрый Мультифрукт', desc:'', art:'cup',
-    vols:[{ v:'0,3 л', price:null, photo:'j-dob-multi-03' }, { v:'1 л', price:null, photo:'j-dob-multi-1' }] },
+    vols:[{ v:'0,3 л', price:85, photo:'j-dob-multi-03' }, { v:'1 л', price:175, photo:'j-dob-multi-1' }] },
   { id:'j-dob-apple',  cat:'juice', name:'Сок Добрый Яблоко', desc:'', art:'cup',
-    vols:[{ v:'0,3 л', price:null, photo:'j-dob-apple-03' }, { v:'1 л', price:null, photo:'j-dob-apple-1' }] },
+    vols:[{ v:'0,3 л', price:85, photo:'j-dob-apple-03' }, { v:'1 л', price:175, photo:'j-dob-apple-1' }] },
   { id:'j-dob-tomato', cat:'juice', name:'Сок Добрый Томат', desc:'', art:'cup',
-    vols:[{ v:'0,3 л', price:null, photo:'j-dob-tomato-03' }, { v:'1 л', price:null, photo:'j-dob-tomato-1' }] },
-  { id:'j-dob-orange', cat:'juice', name:'Сок Добрый Апельсин-мандарин', price:null, unit:'0,3 л', desc:'', art:'cup' },
-  { id:'j-dob-mors',   cat:'juice', name:'Морс Добрый Брусника-морошка', price:null, unit:'1 л', desc:'', art:'cup' },
+    vols:[{ v:'0,3 л', price:85, photo:'j-dob-tomato-03' }, { v:'1 л', price:175, photo:'j-dob-tomato-1' }] },
+  { id:'j-dob-orange', cat:'juice', name:'Сок Добрый Апельсин-мандарин', price:85, unit:'0,3 л', desc:'', art:'cup' },
+  { id:'j-dob-mors',   cat:'juice', name:'Морс Добрый Брусника-морошка', price:175, unit:'1 л', desc:'', art:'cup' },
   { id:'j-pulpy-orange', cat:'juice', name:'Pulpy Апельсин', desc:'Сок с мякотью апельсина.', art:'cup',
-    vols:[{ v:'0,5 л', price:null, photo:'j-pulpy-orange-05' }, { v:'1 л', price:null, photo:'j-pulpy-orange-1' }] },
-  { id:'j-pulpy-trop', cat:'juice', name:'Pulpy Тропический', price:null, unit:'0,5 л', desc:'', art:'cup' },
-  { id:'j-vp-ananas',  cat:'juice', name:'Волжский посад Ананас-мандарин', price:null, unit:'1 л', desc:'', art:'cup' },
-  { id:'j-vp-granat',  cat:'juice', name:'Волжский посад Гранат-клюква-яблоко', price:null, unit:'1 л', desc:'', art:'cup' },
-  { id:'j-vp-peach',   cat:'juice', name:'Волжский посад Персик-яблоко', price:null, unit:'1 л', desc:'', art:'cup' },
-  { id:'j-vp-mors',    cat:'juice', name:'Морс Волжский посад Смородина-брусника-морошка', price:null, unit:'1 л', desc:'', art:'cup' },
-  { id:'j-vp-lemonade',cat:'juice', name:'Лимонад Волжский посад Лимон-лайм-мята', price:null, unit:'1 л', desc:'', art:'cup' },
-  { id:'j-vp-multi',   cat:'juice', name:'Сок Волжский посад Мультифрукт', price:null, unit:'200 мл', desc:'', art:'cup' },
-  { id:'j-vp-apple',   cat:'juice', name:'Сок Волжский посад Яблоко', price:null, unit:'200 мл', desc:'', art:'cup' },
-  { id:'j-vp-grape',   cat:'juice', name:'Сок Волжский посад Яблоко-виноград', price:null, unit:'200 мл', desc:'', art:'cup' },
-  { id:'j-sp-apricot', cat:'juice', name:'Сок Сады Придонья Яблоко-абрикос', price:null, unit:'200 мл', desc:'Детский, без сахара.', art:'cup' },
-  { id:'j-sp-cherry',  cat:'juice', name:'Сок Сады Придонья Яблоко-вишня', price:null, unit:'200 мл', desc:'Детский, без сахара.', art:'cup' },
-  { id:'j-sp-peach',   cat:'juice', name:'Сок Сады Придонья Яблоко-персик', price:null, unit:'200 мл', desc:'Детский, без сахара.', art:'cup' },
+    vols:[{ v:'0,5 л', price:110, photo:'j-pulpy-orange-05' }, { v:'1 л', price:null, photo:'j-pulpy-orange-1' }] },
+  { id:'j-pulpy-trop', cat:'juice', name:'Pulpy Тропический', price:110, unit:'0,5 л', desc:'', art:'cup' },
+  { id:'j-vp-ananas',  cat:'juice', name:'Волжский посад Ананас-мандарин', price:175, unit:'1 л', desc:'', art:'cup' },
+  { id:'j-vp-granat',  cat:'juice', name:'Волжский посад Гранат-клюква-яблоко', price:175, unit:'1 л', desc:'', art:'cup' },
+  { id:'j-vp-peach',   cat:'juice', name:'Волжский посад Персик-яблоко', price:175, unit:'1 л', desc:'', art:'cup' },
+  { id:'j-vp-mors',    cat:'juice', name:'Морс Волжский посад Смородина-брусника-морошка', price:175, unit:'1 л', desc:'', art:'cup' },
+  { id:'j-vp-lemonade',cat:'juice', name:'Лимонад Волжский посад Лимон-лайм-мята', price:175, unit:'1 л', desc:'', art:'cup' },
+  { id:'j-vp-multi',   cat:'juice', name:'Сок Волжский посад Мультифрукт', price:45, unit:'200 мл', desc:'', art:'cup' },
+  { id:'j-vp-apple',   cat:'juice', name:'Сок Волжский посад Яблоко', price:45, unit:'200 мл', desc:'', art:'cup' },
+  { id:'j-vp-grape',   cat:'juice', name:'Сок Волжский посад Яблоко-виноград', price:45, unit:'200 мл', desc:'', art:'cup' },
+  { id:'j-sp-apricot', cat:'juice', name:'Сок Сады Придонья Яблоко-абрикос', price:45, unit:'200 мл', desc:'Детский, без сахара.', art:'cup' },
+  { id:'j-sp-cherry',  cat:'juice', name:'Сок Сады Придонья Яблоко-вишня', price:45, unit:'200 мл', desc:'Детский, без сахара.', art:'cup' },
+  { id:'j-sp-peach',   cat:'juice', name:'Сок Сады Придонья Яблоко-персик', price:45, unit:'200 мл', desc:'Детский, без сахара.', art:'cup' },
 
   { id:'s-cola',   cat:'soda', name:'Добрый Cola', desc:'', art:'cup',
-    vols:[{ v:'0,3 л', price:null, photo:'s-cola-03' }, { v:'0,5 л', price:null, photo:'s-cola-05' }, { v:'1 л', price:null, photo:'s-cola-1' }] },
+    vols:[{ v:'0,3 л', price:85, photo:'s-cola-03' }, { v:'0,5 л', price:100, photo:'s-cola-05' }, { v:'1 л', price:120, photo:'s-cola-1' }] },
   { id:'s-orange', cat:'soda', name:'Добрый Апельсин', desc:'', art:'cup',
-    vols:[{ v:'0,3 л', price:null, photo:'s-orange-03' }, { v:'0,5 л', price:null, photo:'s-orange-05' }, { v:'1 л', price:null, photo:'s-orange-1' }] },
+    vols:[{ v:'0,3 л', price:85, photo:'s-orange-03' }, { v:'0,5 л', price:100, photo:'s-orange-05' }, { v:'1 л', price:120, photo:'s-orange-1' }] },
   { id:'s-lime',   cat:'soda', name:'Добрый Лимон-лайм', desc:'', art:'cup',
-    vols:[{ v:'0,3 л', price:null, photo:'s-lime-03' }, { v:'0,5 л', price:null, photo:'s-lime-05' }, { v:'1 л', price:null, photo:'s-lime-1' }] },
-  { id:'s-bon-still', cat:'soda', name:'BonAqua негазированная', price:null, unit:'0,5 л', desc:'', art:'cup' },
-  { id:'s-bon-gas',   cat:'soda', name:'BonAqua газированная',   price:null, unit:'0,5 л', desc:'', art:'cup' },
+    vols:[{ v:'0,3 л', price:85, photo:'s-lime-03' }, { v:'0,5 л', price:100, photo:'s-lime-05' }, { v:'1 л', price:120, photo:'s-lime-1' }] },
+  { id:'s-bon-still', cat:'soda', name:'BonAqua негазированная', price:70, unit:'0,5 л', desc:'', art:'cup' },
+  { id:'s-bon-gas',   cat:'soda', name:'BonAqua газированная',   price:70, unit:'0,5 л', desc:'', art:'cup' },
 
-  { id:'c-rich-green', cat:'cold', name:'Rich Зелёный чай',          price:null, unit:'0,5 л', desc:'', art:'cup' },
-  { id:'c-rich-rasp',  cat:'cold', name:'Rich Зелёный чай Малина',   price:null, unit:'0,5 л', desc:'', art:'cup' },
-  { id:'c-rich-mango', cat:'cold', name:'Rich Зелёный чай Манго',    price:null, unit:'0,5 л', desc:'', art:'cup' },
-  { id:'c-rich-lemon', cat:'cold', name:'Rich Чёрный чай Лимон',     price:null, unit:'0,5 л', desc:'', art:'cup' },
-  { id:'c-rich-peach', cat:'cold', name:'Rich Чёрный чай Персик',    price:null, unit:'0,5 л', desc:'', art:'cup' },
-  { id:'c-burn-orig',  cat:'cold', name:'Burn Оригинальный',         price:null, unit:'0,45 л', desc:'Энергетический напиток.', art:'cup' },
-  { id:'c-burn-juicy', cat:'cold', name:'Burn Сочная энергия',       price:null, unit:'0,45 л', desc:'Энергетический напиток.', art:'cup' },
-  { id:'c-burn-trop',  cat:'cold', name:'Burn Тропический микс',     price:null, unit:'0,45 л', desc:'Энергетический напиток.', art:'cup' },
-  { id:'c-burn-apple', cat:'cold', name:'Burn Яблоко-киви',          price:null, unit:'0,45 л', desc:'Энергетический напиток.', art:'cup' },
+  { id:'c-rich-green', cat:'cold', name:'Rich Зелёный чай',          price:115, unit:'0,5 л', desc:'', art:'cup' },
+  { id:'c-rich-rasp',  cat:'cold', name:'Rich Зелёный чай Малина',   price:115, unit:'0,5 л', desc:'', art:'cup' },
+  { id:'c-rich-mango', cat:'cold', name:'Rich Зелёный чай Манго',    price:115, unit:'0,5 л', desc:'', art:'cup' },
+  { id:'c-rich-lemon', cat:'cold', name:'Rich Чёрный чай Лимон',     price:115, unit:'0,5 л', desc:'', art:'cup' },
+  { id:'c-rich-peach', cat:'cold', name:'Rich Чёрный чай Персик',    price:115, unit:'0,5 л', desc:'', art:'cup' },
+  { id:'c-burn-orig',  cat:'cold', name:'Burn Оригинальный',         price:170, unit:'0,45 л', desc:'Энергетический напиток.', art:'cup' },
+  { id:'c-burn-juicy', cat:'cold', name:'Burn Сочная энергия',       price:170, unit:'0,45 л', desc:'Энергетический напиток.', art:'cup' },
+  { id:'c-burn-trop',  cat:'cold', name:'Burn Тропический микс',     price:170, unit:'0,45 л', desc:'Энергетический напиток.', art:'cup' },
+  { id:'c-burn-apple', cat:'cold', name:'Burn Яблоко-киви',          price:170, unit:'0,45 л', desc:'Энергетический напиток.', art:'cup' },
 
-  { id:'m-top-banana',  cat:'milk', name:'Топтыжка Банан',                price:null, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
-  { id:'m-top-vanilla', cat:'milk', name:'Топтыжка Ванильное мороженое',  price:null, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
-  { id:'m-top-caramel', cat:'milk', name:'Топтыжка Карамельная ириска',   price:null, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
-  { id:'m-top-rasp',    cat:'milk', name:'Топтыжка Малина',               price:null, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
-  { id:'m-top-mango',   cat:'milk', name:'Топтыжка Манго-клубника',       price:null, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
-  { id:'m-top-choco',   cat:'milk', name:'Топтыжка Шоколадный пломбир с маршмеллоу', price:null, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
-  { id:'m-chudo',       cat:'milk', name:'Чудо Ванильный пломбир',        price:null, unit:'210 г', desc:'Молочный коктейль.', art:'cup' },
+  { id:'m-top-banana',  cat:'milk', name:'Топтыжка Банан',                price:60, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
+  { id:'m-top-vanilla', cat:'milk', name:'Топтыжка Ванильное мороженое',  price:60, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
+  { id:'m-top-caramel', cat:'milk', name:'Топтыжка Карамельная ириска',   price:60, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
+  { id:'m-top-rasp',    cat:'milk', name:'Топтыжка Малина',               price:60, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
+  { id:'m-top-mango',   cat:'milk', name:'Топтыжка Манго-клубника',       price:60, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
+  { id:'m-top-choco',   cat:'milk', name:'Топтыжка Шоколадный пломбир с маршмеллоу', price:60, unit:'200 г', desc:'Молочный коктейль.', art:'cup' },
+  { id:'m-chudo',       cat:'milk', name:'Чудо Ванильный пломбир',        price:85, unit:'210 г', desc:'Молочный коктейль.', art:'cup' },
 
   { id:'e-sauce',   cat:'extra', name:'Соус томатный острый',            price:35,  unit:'30 гр',  desc:'Порционный.', art:'sauce' },
   { id:'e-sauceb',  cat:'extra', name:'Соус томатный острый большой',    price:140, unit:'120 гр', desc:'На четыре порции.', art:'sauce' },
@@ -308,12 +308,13 @@ const OTHER_ART = {
   container:`<path d="M46 84h108l-8 76a8 8 0 0 1-8 7H62a8 8 0 0 1-8-7Z" fill="#EFE6D4" stroke="#17171A" stroke-width="3"/><rect x="38" y="66" width="124" height="20" rx="7" fill="#B9C2D4" stroke="#17171A" stroke-width="3"/><path d="M74 108v40M100 108v40M126 108v40" stroke="#17171A" stroke-width="2" opacity=".35"/>`
 };
 const otherSVG = p => `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${p.name}">${OTHER_ART[p.art] || OTHER_ART.box}</svg>`;
-/* фото товаров: img/menu/<id>.webp, у пицц для карточек есть лёгкая -sm версия */
+/* фото товаров: img/menu/<id>.webp — крупное для окна товара, <id>-sm.webp (320 px) для карточек */
 const MENU_IMG = 'img/menu/';
 const photoOf = (p, vi) => { const v = volOf(p, vi); return v ? v.photo : p.id; };
-const artOf = (p, vi, big) => isPizza(p)
-  ? `<img class="pizza-photo" src="${MENU_IMG}${p.id}${big ? '' : '-sm'}.webp" alt="${p.name}" loading="lazy" width="${big ? 600 : 360}" height="${big ? 600 : 360}">`
-  : `<img class="item-photo" src="${MENU_IMG}${photoOf(p, vi)}.webp" alt="${p.name}" loading="lazy" width="440" height="440">`;
+const artOf = (p, vi, big) => {
+  const size = big ? (isPizza(p) ? 600 : 440) : 320;
+  return `<img class="${isPizza(p) ? 'pizza-photo' : 'item-photo'}" src="${MENU_IMG}${photoOf(p, vi)}${big ? '' : '-sm'}.webp" alt="${p.name}" loading="lazy" decoding="async" width="${size}" height="${size}">`;
+};
 
 /* ---------- состояние ---------- */
 let cart = [];
