@@ -313,7 +313,7 @@ const MENU_IMG = 'img/menu/';
 const photoOf = (p, vi) => { const v = volOf(p, vi); return v ? v.photo : p.id; };
 const artOf = (p, vi, big) => {
   const size = big ? (isPizza(p) ? 600 : 440) : 320;
-  return `<img class="${isPizza(p) ? 'pizza-photo' : 'item-photo'}" src="${MENU_IMG}${photoOf(p, vi)}${big ? '' : '-sm'}.webp" alt="${p.name}" loading="lazy" decoding="async" width="${size}" height="${size}">`;
+  return `<img class="${isPizza(p) ? 'pizza-photo' : 'item-photo'}" src="${MENU_IMG}${photoOf(p, vi)}${big ? '' : '-sm'}.webp" alt="${p.name}" ${big ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'} width="${size}" height="${size}">`;
 };
 
 /* ---------- состояние ---------- */
@@ -629,7 +629,8 @@ function lockScroll() {
 function unlockScroll() {
   document.body.classList.remove('no-scroll');
   document.body.style.top = '';
-  window.scrollTo(0, _lockY);
+  /* instant: у html стоит плавная прокрутка, иначе страница едет сверху к товару */
+  window.scrollTo({ top: _lockY, behavior: 'instant' });
 }
 
 const openCart = () => {
@@ -1322,7 +1323,7 @@ function openStory() {
 function closeStory() {
   $('#story').hidden = true;
   unlockScroll();
-  window.scrollTo(0, storyScrollY);
+  window.scrollTo({ top: storyScrollY, behavior: 'instant' });
   if (history.replaceState) history.replaceState(null, '', location.pathname);
 }
 
