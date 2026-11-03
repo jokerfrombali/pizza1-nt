@@ -1,4 +1,4 @@
-name: Deploy main to Beget
+name: Deploy main to Timeweb
 
 on:
   push:
@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     env:
-      DEPLOY_HOST: ${{ secrets.BEGET_HOST }}
-      DEPLOY_USER: ${{ secrets.BEGET_USER }}
-      DEPLOY_KEY: ${{ secrets.BEGET_SSH_KEY }}
-      DEPLOY_KNOWN_HOSTS: ${{ secrets.BEGET_KNOWN_HOSTS }}
+      DEPLOY_HOST: ${{ secrets.TIMEWEB_HOST }}
+      DEPLOY_USER: ${{ secrets.TIMEWEB_USER }}
+      DEPLOY_KEY: ${{ secrets.TIMEWEB_SSH_KEY }}
+      DEPLOY_KNOWN_HOSTS: ${{ secrets.TIMEWEB_KNOWN_HOSTS }}
       DEPLOY_PATH: pizza1nt.ru/public_html/
 
     steps:

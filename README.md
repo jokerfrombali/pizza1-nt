@@ -1,11 +1,11 @@
 # Пицца №1 — Нижний Тагил
 
-Production-исходники сайта [pizza1nt.ru](https://pizza1nt.ru) и автоматический деплой на Beget.
+Production-исходники сайта [pizza1nt.ru](https://pizza1nt.ru) и автоматический деплой на Timeweb.
 
 ## Production
 
 - Ветка: `main`
-- Сервер: Beget
+- Сервер: Timeweb (виртуальный хостинг)
 - Каталог: `pizza1nt.ru/public_html/`
 - Деплой: GitHub Actions (`.github/workflows/deploy.yml`)
 
@@ -17,7 +17,7 @@ Production-исходники сайта [pizza1nt.ru](https://pizza1nt.ru) и �
 2. Внести и локально проверить правку.
 3. Создать commit с понятным сообщением.
 4. Отправить commit в `main`.
-5. Дождаться зелёного результата workflow **Deploy main to Beget**.
+5. Дождаться зелёного результата workflow **Deploy main to Timeweb**.
 
 ## Секреты и runtime-данные
 
