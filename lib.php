@@ -45,9 +45,23 @@ function tg_call($method, $params) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 7);
+    if (defined('CURL_IPRESOLVE_V4')) { curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4); }
     $r = curl_exec($ch);
+    $err = curl_error($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
-    return json_decode($r, true);
+    $j = json_decode($r, true);
+    if (!is_array($j) || empty($j['ok'])) {
+        tg_log($method . ' http=' . $code . ' err=' . $err . ' resp=' . substr((string)$r, 0, 300));
+    }
+    return $j;
+}
+
+/* журнал ошибок отправки в Телеграм: orders/tg_errors.log */
+function tg_log($msg) {
+    global $DIR;
+    @file_put_contents($DIR . '/tg_errors.log', date('Y-m-d H:i:s') . ' ' . $msg . "\n", FILE_APPEND);
 }
 
 function money($n) { return number_format((int)$n, 0, ',', ' ') . ' ₽'; }
