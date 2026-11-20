@@ -194,7 +194,7 @@ const STORY = [
 const STORIES = [
   { title:'Как мы печём', video:'story1.mp4', poster:'story1.jpg' },
   { title:'Тесто вручную', video:'story2.mp4', poster:'story2.jpg' },
-  { title:'Сторис 3', c1:'#2F7A4F', c2:'#1D4F35' },
+  { title:'Как нас найти', video:'story3.mp4', poster:'story3.jpg' },
   { title:'Сторис 4', c1:'#F5B43C', c2:'#C2801A' },
   { title:'Сторис 5', c1:'#2B2B33', c2:'#15151A' }
 ];
