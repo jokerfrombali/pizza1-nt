@@ -38,16 +38,91 @@ function order_save($o) {
     return file_put_contents($p, json_encode($o, JSON_UNESCAPED_UNICODE));
 }
 
-function tg_call($method, $params) {
+/* Отправка в Телеграм.
+   Связь хостинга с api.telegram.org нестабильна, поэтому:
+   - несколько попыток, в том числе через запасной адрес Телеграма;
+   - если сеть так и не ответила, sendMessage кладётся в очередь orders/tg_queue
+     и досылается функцией tg_queue_flush() (cron.php и order_status.php). */
+function tg_try($method, $params, $attempts) {
     global $TOKEN;
-    $ch = curl_init('https://api.telegram.org/bot' . $TOKEN . '/' . $method);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
-    $r = curl_exec($ch);
-    curl_close($ch);
-    return json_decode($r, true);
+    $ips = array('', '149.154.167.220', '149.154.166.110');
+    for ($i = 0; $i < $attempts; $i++) {
+        $ch = curl_init('https://api.telegram.org/bot' . $TOKEN . '/' . $method);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);
+        $ip = $ips[$i % count($ips)];
+        if ($ip !== '') { curl_setopt($ch, CURLOPT_RESOLVE, array('api.telegram.org:443:' . $ip)); }
+        $r = curl_exec($ch);
+        $err = curl_error($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        $j = json_decode($r, true);
+        if (is_array($j)) {
+            if (empty($j['ok'])) {
+                tg_log($method . ' http=' . $code . ' err=' . $err . ' resp=' . substr((string)$r, 0, 300));
+            }
+            return $j;   // Телеграм ответил — повторять незачем
+        }
+        tg_log($method . ' try=' . ($i + 1) . ' ip=' . ($ip === '' ? 'dns' : $ip) . ' http=' . $code . ' err=' . $err);
+    }
+    return null;         // сеть так и не ответила
+}
+
+function tg_call($method, $params) {
+    $j = tg_try($method, $params, 2);
+    if ($j === null && $method === 'sendMessage') { tg_queue_add($method, $params); }
+    return $j;
+}
+
+function tg_queue_add($method, $params) {
+    global $DIR;
+    $q = $DIR . '/tg_queue';
+    if (!is_dir($q)) { @mkdir($q, 0700); }
+    $f = $q . '/' . sprintf('%.4f', microtime(true)) . '_' . mt_rand(1000, 9999) . '.json';
+    @file_put_contents($f, json_encode(array('m' => $method, 'p' => $params, 't' => time()), JSON_UNESCAPED_UNICODE));
+    tg_log('queued ' . basename($f));
+}
+
+/* досылка очереди: не чаще раза в 15 секунд и не дольше 40 секунд за раз */
+function tg_queue_flush() {
+    global $DIR;
+    $files = glob($DIR . '/tg_queue/*.json');
+    if (!$files) { return; }
+    $lock = @fopen($DIR . '/tg_queue.lock', 'c');
+    if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) { return; }
+    $last = (int)@file_get_contents($DIR . '/tg_queue.last');
+    if (time() - $last < 15) { flock($lock, LOCK_UN); return; }
+    @file_put_contents($DIR . '/tg_queue.last', time());
+    sort($files);
+    $start = time();
+    foreach ($files as $f) {
+        if (time() - $start > 40) { break; }
+        $x = json_decode(@file_get_contents($f), true);
+        if (!is_array($x) || time() - (int)$x['t'] > 86400) { @unlink($f); continue; }
+        $p = $x['p'];
+        if (isset($p['text'])) {
+            $p['text'] = '⏱ <i>доставлено с задержкой (' . date('H:i', (int)$x['t']) . ')</i>' . "\n\n" . $p['text'];
+        }
+        $j = tg_try($x['m'], $p, 3);
+        if ($j === null) { break; }  // сеть всё ещё недоступна — попробуем позже
+        @unlink($f);                 // доставлено (или Телеграм отказал — повтор не поможет)
+    }
+    flock($lock, LOCK_UN);
+}
+
+/* для страниц-опросов: сначала отдать ответ посетителю, потом досылать */
+function tg_queue_flush_after_response() {
+    if (function_exists('fastcgi_finish_request')) { @fastcgi_finish_request(); }
+    tg_queue_flush();
+}
+
+/* журнал ошибок отправки в Телеграм: orders/tg_errors.log */
+function tg_log($msg) {
+    global $DIR;
+    @file_put_contents($DIR . '/tg_errors.log', date('Y-m-d H:i:s') . ' ' . $msg . "\n", FILE_APPEND);
 }
 
 function money($n) { return number_format((int)$n, 0, ',', ' ') . ' ₽'; }

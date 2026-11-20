@@ -14,6 +14,9 @@ if (!isset($_GET['force']) && file_exists($tick) && ($now - filemtime($tick)) < 
 }
 @touch($tick);
 
+/* досылка сообщений, которые не ушли в Телеграм сразу */
+tg_queue_flush();
+
 /* ---------- непринятые заказы ---------- */
 
 foreach (orders_all(300) as $o) {

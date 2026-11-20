@@ -1,4 +1,4 @@
-name: Deploy main to Beget
+name: Deploy main to Timeweb
 
 on:
   push:

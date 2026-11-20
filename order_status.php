@@ -1,6 +1,8 @@
 <?php
 /* Статус заказа по ключу — для кнопки в шапке сайта. Ничего не меняет. */
 require dirname(__FILE__) . '/lib.php';
+/* пока клиент смотрит статус — досылаем в Телеграм то, что не ушло сразу */
+register_shutdown_function('tg_queue_flush_after_response');
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
