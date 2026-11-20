@@ -59,6 +59,8 @@ jobs:
             backup_dir="$HOME/deploy-backups/pizza1nt.ru"
             test -d "$production"
             mkdir -p "$backup_dir"
+            # оставляем 4 последние копии, чтобы не кончилось место на хостинге
+            ls -1t "$backup_dir"/predeploy-*.tar.gz 2>/dev/null | tail -n +5 | while read -r old; do rm -f -- "$old"; done
             stamp=$(date -u +%Y%m%dT%H%M%SZ)
             tar -czf "$backup_dir/predeploy-$stamp.tar.gz" \
               -C "$HOME/pizza1nt.ru" public_html

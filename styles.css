@@ -985,3 +985,42 @@ body.no-scroll{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 .ocard__st{display:block;font-family:var(--display);text-transform:uppercase;font-size:22px;line-height:1.1;margin-bottom:8px}
 .ocard__link{font-size:14px;color:var(--amber-lt);font-weight:600}
 .zback{margin-top:18px}
+
+/* ---------- сторис компактнее, крупная кнопка в плашке cookie (20.11.2026) ---------- */
+.story{width:clamp(124px,15vw,200px);border-radius:20px;padding:14px}
+.story b{font-size:clamp(14px,1.3vw,18px)}
+.cookie button#cookieOk{background:#E0262B;color:#fff;font-size:16px;font-weight:700;border-radius:999px;padding:12px 22px;min-height:46px;white-space:nowrap}
+.cookie button#cookieOk:hover{background:#C51F24;color:#fff}
+@media (max-width:760px){
+  .stories__row .story{width:33vw;max-width:140px;padding:9px;border-radius:13px}
+  .story b{font-size:12px}
+  .story__play{width:28px;height:28px}
+  .cookie{flex-direction:column;align-items:stretch;gap:12px}
+  .cookie button#cookieOk{width:100%;min-height:52px;font-size:17px;margin-left:0}
+}
+
+/* ---------- целая пицца / порциями ---------- */
+.wmode{display:flex;background:var(--bg-3);border-radius:999px;padding:4px;margin-bottom:14px}
+.wmode button{flex:1;border:0;background:none;border-radius:999px;padding:11px 6px;font-size:14px;font-weight:700;color:var(--muted);cursor:pointer}
+.wmode button[aria-pressed="true"]{background:#E0262B;color:#fff}
+
+/* ---------- уведомление «в корзине»: маленькая плашка снизу ---------- */
+.toast{top:auto;bottom:24px;background:rgba(30,30,34,.94);color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600;line-height:1.3;max-width:min(360px,90vw);box-shadow:0 8px 24px rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.08);transform:translate(-50%,12px);backdrop-filter:blur(8px)}
+.toast::before{content:"✓ ";color:#4CC27A}
+.toast.is-on{transform:translate(-50%,0)}
+@media (max-width:760px){.toast{bottom:16px;font-size:13px;padding:9px 16px}}
+
+/* ---------- лупа и увеличенное фото товара ---------- */
+#prodArt{cursor:zoom-in}
+#prodArt::after{content:"";position:absolute;right:16px;bottom:16px;width:42px;height:42px;border-radius:50%;
+  background:rgba(14,14,16,.6) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6'/%3E%3C/svg%3E") center/22px no-repeat;
+  border:1px solid rgba(255,255,255,.25);pointer-events:none}
+.pzoom{position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.92);display:grid;place-items:center;padding:16px;cursor:zoom-out;opacity:0;transition:opacity .2s}
+.pzoom.is-on{opacity:1}
+.pzoom img{max-width:min(96vw,760px);max-height:88vh;width:100%;height:auto;object-fit:contain;transform:scale(.92);transition:transform .25s}
+.pzoom.is-on img{transform:scale(1)}
+.pzoom__x{position:absolute;top:16px;right:16px;width:48px;height:48px;border-radius:50%;border:0;background:#E0262B;color:#fff;font-size:20px;cursor:pointer}
+
+/* ---------- заголовок H1 для поисковиков; подпись «у цирка» на телефоне ---------- */
+.sr-h1{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+@media (max-width:900px){.brand__txt i{display:block;font-size:0;margin-top:2px;white-space:nowrap}.brand__txt i::after{content:"та самая, у цирка";font-size:11px}}

@@ -192,9 +192,9 @@ const STORY = [
 
 /* ---------- сторис ---------- */
 const STORIES = [
+  { title:'Открылась детская зона', video:'story3.mp4', poster:'story3.jpg' },
   { title:'Как мы печём', video:'story1.mp4', poster:'story1.jpg' },
   { title:'Тесто вручную', video:'story2.mp4', poster:'story2.jpg' },
-  { title:'Как нас найти', video:'story3.mp4', poster:'story3.jpg' },
   { title:'Сторис 4', c1:'#F5B43C', c2:'#C2801A' },
   { title:'Сторис 5', c1:'#2B2B33', c2:'#15151A' }
 ];
@@ -394,11 +394,13 @@ function renderMenu() {
 }
 
 /* ---------- карточка товара ---------- */
-function openProd(id) {
+let openMode = 'whole';   // пицца: 'whole' — целыми, 'part' — порциями
+function openProd(id, mode) {
   const p = byId(id);
   if (!p) return;
   openProduct = p;
-  openQty = isPizza(p) ? MIN_SLICES : 1;
+  openMode = mode === 'part' ? 'part' : 'whole';
+  openQty = isPizza(p) ? (openMode === 'whole' ? WHOLE : MIN_SLICES) : 1;
   openVol = 0;
   $('#prodArt').innerHTML  = artOf(p, 0, true) + badgeHTML(p);
   $('#prodName').textContent = p.name;
@@ -422,10 +424,23 @@ function renderProdQty() {
   if (!p) return;
   const box = $('#prodQty');
 
-  if (isPizza(p)) {
-    const half = MIN_SLICES;
-    const presets = [MIN_SLICES, 4, WHOLE];
+  if (isPizza(p) && openMode === 'whole') {
+    const n = openQty / WHOLE;
     box.innerHTML = `
+      <div class="wmode"><button data-mode="whole" aria-pressed="true">Целая пицца</button><button data-mode="part" aria-pressed="false">По порциям</button></div>
+      <div class="amount">
+        <button class="amount__b" data-d="-1" aria-label="Меньше">−</button>
+        <div class="amount__now">
+          <b>${n} ${plural(n,'пицца','пиццы','пицц')}</b>
+          <span>по 8 порций · ${rub(p.price * WHOLE)} за пиццу</span>
+        </div>
+        <button class="amount__b" data-d="1" aria-label="Ещё одна пицца">+</button>
+      </div>`;
+    $('#prodPrice').textContent = rub(p.price * openQty);
+  } else if (isPizza(p)) {
+    const presets = [MIN_SLICES, 4, 6];
+    box.innerHTML = `
+      <div class="wmode"><button data-mode="whole" aria-pressed="false">Целая пицца</button><button data-mode="part" aria-pressed="true">По порциям</button></div>
       <p class="pmodal__label">Сколько порций — от 2</p>
       <div class="sizes">${presets.map(n =>
         `<button data-n="${n}" aria-pressed="${n === openQty}">${presetName(n)}</button>`).join('')}</div>
@@ -456,6 +471,12 @@ function renderProdQty() {
   const can = hasPrice(p, openVol);
   $('#prodAdd').disabled = !can;
   $('#prodAdd').textContent = can ? 'В корзину' : 'Скоро в продаже';
+}
+
+/* строка корзины из целых пицц: плюс/минус меняют число пицц */
+function isWholeLine(l) {
+  const p = byId(l.id);
+  return !!p && isPizza(p) && l.qty >= WHOLE && l.qty % WHOLE === 0;
 }
 
 function wholeNote(l) {
@@ -546,7 +567,7 @@ function pizzaSlices() {
 }
 
 function renderCart() {
-  const count = cart.reduce((s, l) => s + l.qty, 0);
+  const count = cart.reduce((s, l) => s + (isWholeLine(l) ? l.qty / WHOLE : l.qty), 0);
   const cc = $('#cartCount');
   if (cc) cc.textContent = count;
   const body = $('#cartBody');
@@ -565,11 +586,11 @@ function renderCart() {
       <span class="line__name">${l.name}</span>
       <span class="line__sum">${rub(l.price * l.qty)}</span>
     </div>
-    <p class="line__meta">${wholeNote(l)}${l.meta}${l.meta ? ' · ' : ''}${rub(l.price)} за шт.</p>
+    <p class="line__meta">${isWholeLine(l) ? `${wholeNote(l)}${rub(l.price * WHOLE)} за пиццу` : `${wholeNote(l)}${l.meta}${l.meta ? ' · ' : ''}${rub(l.price)} за шт.`}</p>
     <div class="line__row">
       <div class="qty">
         <button data-step="-1" aria-label="Убрать одну">−</button>
-        <span>${l.qty}</span>
+        <span>${isWholeLine(l) ? l.qty / WHOLE : l.qty}</span>
         <button data-step="1" aria-label="Добавить одну">+</button>
       </div>
       <button class="drop" data-drop>убрать</button>
@@ -673,7 +694,8 @@ $('#tabs').addEventListener('click', e => {
 
 $('#sections').addEventListener('click', e => {
   const card = e.target.closest('.card');
-  if (card) openProd(card.dataset.id);
+  if (!card) return;
+  openProd(card.dataset.id);
 });
 $('#sections').addEventListener('keydown', e => {
   if (e.key !== 'Enter' && e.key !== ' ') return;
@@ -689,9 +711,15 @@ $('#prodQty').addEventListener('click', e => {
     openVol = +vb.dataset.vol;
     $('#prodArt').innerHTML = artOf(openProduct, openVol, true) + badgeHTML(openProduct);
   }
+  else if (e.target.closest('[data-mode]')) {
+    openMode = e.target.closest('[data-mode]').dataset.mode;
+    openQty = openMode === 'whole' ? WHOLE : MIN_SLICES;
+  }
   else if (n) openQty = +n.dataset.n;
   else if (d) {
-    if (isPizza(openProduct)) {
+    if (isPizza(openProduct) && openMode === 'whole') {
+      openQty = Math.max(WHOLE, Math.min(160, openQty + (+d.dataset.d) * WHOLE));
+    } else if (isPizza(openProduct)) {
       openQty = Math.max(MIN_SLICES, Math.min(160, openQty + (+d.dataset.d) * stepOf(openProduct)));
     } else {
       openQty = Math.max(1, Math.min(50, openQty + +d.dataset.d));
@@ -864,7 +892,7 @@ $('#cartBody').addEventListener('click', e => {
   if (step) {
     const _p = byId(cart[i].id);
     const _min = _p && isPizza(_p) ? MIN_SLICES : 1;
-    cart[i].qty += +step.dataset.step * (_p && isPizza(_p) ? stepOf(_p) : 1);
+    cart[i].qty += +step.dataset.step * (isWholeLine(cart[i]) ? WHOLE : _p && isPizza(_p) ? stepOf(_p) : 1);
     if (cart[i].qty < _min) cart.splice(i, 1);
   } else if (e.target.closest('[data-drop]')) {
     cart.splice(i, 1);
@@ -926,10 +954,10 @@ $('#scrim').addEventListener('click', closeCart);
 /* ---------- политика конфиденциальности ---------- */
 const POLICY = {
   org: 'ИП Мордвов Лев Евгеньевич',
-  inn: '[ИНН]',
-  ogrnip: '[ОГРНИП]',
+  inn: '666900066306',
+  ogrnip: '325665800168380',
   email: '[e-mail для обращений]',
-  updated: '[дата последнего обновления]',
+  updated: '20.11.2026',
   sections: [
     { h: '1. Общие положения',
       p: ['Настоящая Политика конфиденциальности (далее — Политика) действует в отношении всей информации, которую сайт pizza1nt.ru (далее — Сайт) может получить о Пользователе во время использования Сайта.',
@@ -1526,7 +1554,7 @@ function renderOrderChip() {
   const btn = $('#cartToggle');
   if (!btn) return;
   if (!cartToggleHTML) cartToggleHTML = btn.innerHTML;
-  const count = cart.reduce((s, l) => s + l.qty, 0);
+  const count = cart.reduce((s, l) => s + (isWholeLine(l) ? l.qty / WHOLE : l.qty), 0);
   const show = !!order && !orderExpired() && count === 0;
   btn.classList.toggle('is-order', show);
   btn.classList.toggle('is-final', show && !!order.final);
@@ -1603,12 +1631,12 @@ document.addEventListener('click', e => {
   e.preventDefault();
   openStory();
 });
-$('#storyBack').addEventListener('click', closeStory);
+$('#storyBack')?.addEventListener('click', closeStory);
 
 
 $('#policyBack').addEventListener('click', closePolicy);
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && !$('#story').hidden) closeStory();
+  if (e.key === 'Escape' && $('#story') && !$('#story').hidden) closeStory();
   else if (e.key === 'Escape' && !$('#policy').hidden) closePolicy();
 });
 if (location.hash === '#story') openStory();
@@ -1664,4 +1692,26 @@ initReveal();
   };
   setTimeout(ping, 4000);
   setInterval(ping, 60000);
+})();
+
+/* ---------- увеличение фото в карточке товара ---------- */
+(() => {
+  const zoom = document.createElement('div');
+  zoom.className = 'pzoom';
+  zoom.hidden = true;
+  zoom.innerHTML = '<img alt=""><button class="pzoom__x" aria-label="Закрыть фото">✕</button>';
+  document.body.appendChild(zoom);
+  const close = () => { zoom.classList.remove('is-on'); setTimeout(() => { zoom.hidden = true; }, 200); };
+  document.getElementById('prodArt').addEventListener('click', () => {
+    const img = document.querySelector('#prodArt img');
+    if (!img) return;
+    zoom.querySelector('img').src = img.currentSrc || img.src;
+    zoom.querySelector('img').alt = img.alt;
+    zoom.hidden = false;
+    requestAnimationFrame(() => zoom.classList.add('is-on'));
+  });
+  zoom.addEventListener('click', close);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !zoom.hidden) { e.stopImmediatePropagation(); close(); }
+  }, true);
 })();
